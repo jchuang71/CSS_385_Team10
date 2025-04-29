@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviourPun
     private Rigidbody2D rb;
     private float maxHealth = 100f;
     private float health;
+    [SerializeField] private float money;
 
     private Camera cam;
 
@@ -62,5 +63,10 @@ public class PlayerController : MonoBehaviourPun
     public void AddHealth(float amount)
     {
         health += amount;
+    }
+
+    public void AddMoney(float amount)
+    {
+        money += amount;
     }
 }

@@ -191,6 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  money: 0
 --- !u!114 &-5478923330931764868
 MonoBehaviour:
   m_ObjectHideFlags: 0

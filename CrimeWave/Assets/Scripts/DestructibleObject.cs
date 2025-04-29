@@ -27,6 +27,7 @@ public class DestructibleObject : MonoBehaviourPun
     {
         if(collision.gameObject.CompareTag("Player"))
         {
+            collision.gameObject.GetComponent<PlayerController>().AddMoney(20);
             PhotonNetwork.Destroy(gameObject);
         }
     }
