@@ -7,6 +7,18 @@ public class PlayerController : MonoBehaviourPun
 {
     public float moveSpeed = 5f;
 
+    private Rigidbody2D rb;
+    private float maxHealth = 100f;
+    private float health;
+
+    private Camera cam;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        health = maxHealth;
+    }
+
     void Update()
     {
         if (photonView == null)
@@ -15,6 +27,17 @@ public class PlayerController : MonoBehaviourPun
             return;
         }
 
+        if (photonView.IsMine)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
         // Only control this player if it's ours
         if (photonView.IsMine)
         {
@@ -23,10 +46,10 @@ public class PlayerController : MonoBehaviourPun
             float vertical = Input.GetAxis("Vertical");
 
             // Calculate movement
-            Vector2 movement = new Vector2(horizontal, vertical) * moveSpeed * Time.deltaTime;
+            Vector2 movement = new Vector2(horizontal, vertical) * moveSpeed * Time.fixedDeltaTime;
 
             // Apply movement
-            transform.Translate(movement);
+            rb.MovePosition(rb.position + movement);
 
             // Debug logging for movement
             if (horizontal != 0 || vertical != 0)
@@ -34,5 +57,10 @@ public class PlayerController : MonoBehaviourPun
                 Debug.Log($"Moving player: h={horizontal}, v={vertical}");
             }
         }
+    }
+
+    public void AddHealth(float amount)
+    {
+        health += amount;
     }
 }
