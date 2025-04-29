@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Seedfall.sln"
+    "dotnet.defaultSolution": "CrimeWave.sln"
 }
