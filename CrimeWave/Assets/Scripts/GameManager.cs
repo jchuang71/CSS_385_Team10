@@ -15,7 +15,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // COMPLETELY REVISED: Simplified player instantiation logic
         Debug.Log("GameManager Start - Is connected: " + PhotonNetwork.IsConnected); // ADDED: Basic connection check
+    }
 
+    public override void OnJoinedRoom()
+    {
         if (PhotonNetwork.IsConnected)
         {
             CreatePlayer(); // MODIFIED: Always try to create a player if connected
