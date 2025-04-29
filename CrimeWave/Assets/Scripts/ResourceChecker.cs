@@ -16,7 +16,7 @@ public class ResourceChecker : MonoBehaviour
         Debug.Log("Found " + allResources.Length + " resources:");
         foreach (Object obj in allResources)
         {
-            Debug.Log("- " + obj.name + " (" + obj.GetType() + ")");
+//            Debug.Log("- " + obj.name + " (" + obj.GetType() + ")");
         }
     }
 }
