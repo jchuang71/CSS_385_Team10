@@ -3544,6 +3544,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe60bafe28f2d4943b98505bcafd2f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player1: {fileID: 2383410608151954529, guid: 14272155c6f0d9844b7f8b40b975b5a7, type: 3}
+  player2: {fileID: 5218036956727799422, guid: ea09b3d43e50c674dbfeb4336c3e7f2f, type: 3}
   playButton: {fileID: 229211515}
   player1Text: {fileID: 1260591543}
   player2Text: {fileID: 995336198}

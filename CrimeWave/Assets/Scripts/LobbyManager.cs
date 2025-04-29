@@ -11,6 +11,9 @@ using ExitGames.Client.Photon;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+    // Players
+    public GameObject player1;
+    public GameObject player2;
 
     public GameObject playButton;
 
@@ -36,6 +39,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.JoinLobby();
     }
 
@@ -89,6 +93,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         roomName.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name +
                          " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
                          PhotonNetwork.CurrentRoom.MaxPlayers + ")";
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameObject p1 = PhotonNetwork.Instantiate("Player1Square", Vector2.zero, Quaternion.identity);
+            //p1.GetComponent<SpriteRenderer>().enabled = false;
+            //p1.GetComponent<PlayerController>().enabled = false;
+        }
+        else
+        {
+            GameObject p2 = PhotonNetwork.Instantiate("Player2Square", new Vector2(2, 2), Quaternion.identity);
+        }
+
         UpdatePlayerList();
     }
 
