@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviourPun
         Vector2 direction = new Vector2(mousePos.x - transform.position.x, mousePos.y - transform.position.y);
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         //Debug.Log("mouse position " + mousePos + " direction " + direction + " angle " + angle); // Debug log to check if the function is called
-        rb.rotation = angle; // Rotate the player to face the mouse position
+        rb.rotation = angle-90; // Rotate the player to face the mouse position
     }
 
     private void MovePlayer()

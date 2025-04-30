@@ -11,7 +11,10 @@ public class BulletLogic : MonoBehaviourPun
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        distanceTravelled = 0f; // Initialize distance travelled to 0
+        if (photonView.IsMine)
+        {
+            distanceTravelled = 0f; // Initialize distance travelled to 0
+        }
     }
 
     // Update is called once per frame
@@ -22,22 +25,28 @@ public class BulletLogic : MonoBehaviourPun
 
     public void SetBulletData(Gun gun)
     {
-        speed = gun.bulletSpeed; // Set the bullet speed from the gun data
-        range = gun.range; // Set the bullet range from the gun data
-        damage = gun.damage; // Set the bullet damage from the gun data
+        if (photonView.IsMine)
+        {
+            speed = gun.bulletSpeed; // Set the bullet speed from the gun data
+            range = gun.range; // Set the bullet range from the gun data
+            damage = gun.damage; // Set the bullet damage from the gun data
+        }
     }
 
     void BulletMovement()
     {
-        distanceTravelled += speed * Time.deltaTime;
-
-        // Move the bullet forward in the direction it is facing
-        transform.Translate(Vector2.up * speed * Time.deltaTime);
-        
-        // Check if the bullet has exceeded its range
-        if (distanceTravelled > range)
+        if (photonView.IsMine)
         {
-            Destroy(gameObject); // Destroy the bullet if it exceeds its range
+            distanceTravelled += speed * Time.deltaTime;
+
+            // Move the bullet forward in the direction it is facing
+            transform.Translate(Vector2.up * speed * Time.deltaTime);
+            
+            // Check if the bullet has exceeded its range
+            if (distanceTravelled > range)
+            {
+                PhotonNetwork.Destroy(gameObject); // Destroy the bullet if it exceeds its range
+            }
         }
     }
 }

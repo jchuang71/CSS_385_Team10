@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: Machine Gun
   gunDescription: fast fire rate
-  fireRate: 0.1
+  fireRate: 10
   damage: 5
   range: 10
   bulletSpeed: 10
