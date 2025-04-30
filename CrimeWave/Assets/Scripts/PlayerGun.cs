@@ -6,7 +6,8 @@ public class PlayerGun : MonoBehaviourPun
 {
     public Gun currentGun; // Reference to the Gun scriptable object
     Rigidbody2D rb;
-    bool isShooting = false; // Flag to check if the player is shooting
+    bool isHoldingFire = false; // Flag to check if the player is shooting
+    float lastFireTime = 0f; // Time of the last shot fired
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,33 +23,23 @@ public class PlayerGun : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
-        if (Input.GetMouseButtonDown(0) && !isShooting)
+        // Detect mouse held down
+        if (Input.GetMouseButtonDown(0))
         {
-            StartCoroutine(FireCoroutine());
+            isHoldingFire = true;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            isHoldingFire = false;
         }
 
-        // Stop shooting when mouse button is released
-        if (Input.GetMouseButtonUp(0))
-        {
-            isShooting = false;
-        }
-    }
-
-
-
-    private IEnumerator FireCoroutine()
-    {
-        isShooting = true;
-
-        while (isShooting)
+        // Handle firing
+        if (isHoldingFire && Time.time >= lastFireTime + (1f / currentGun.fireRate))
         {
             Shoot();
-
-            // Wait based on the gun's fire rate
-            yield return new WaitForSeconds(1f / currentGun.fireRate);
+            lastFireTime = Time.time;
         }
     }
-
     public void Shoot()
     {
         // Implement shooting logic here, e.g., instantiate a bullet prefab, play sound, etc.
