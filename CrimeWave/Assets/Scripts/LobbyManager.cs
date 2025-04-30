@@ -72,13 +72,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("Master client loading level for all players"); // ADDED: Debug info
             PhotonNetwork.LoadLevel("Game");
+            GameObject p1 = PhotonNetwork.Instantiate("Player1Square", Vector2.zero, Quaternion.identity);
         }
         else
         {
             Debug.Log("Non-master client loading scene locally"); // ADDED: Debug info
             SceneManager.LoadScene("Game");
+            GameObject p2 = PhotonNetwork.Instantiate("Player2Square", new Vector2(2, 2), Quaternion.identity);
         }
-
     }
 
 
@@ -93,17 +94,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         roomName.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name +
                          " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
                          PhotonNetwork.CurrentRoom.MaxPlayers + ")";
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            GameObject p1 = PhotonNetwork.Instantiate("Player1Square", Vector2.zero, Quaternion.identity);
-            //p1.GetComponent<SpriteRenderer>().enabled = false;
-            //p1.GetComponent<PlayerController>().enabled = false;
-        }
-        else
-        {
-            GameObject p2 = PhotonNetwork.Instantiate("Player2Square", new Vector2(2, 2), Quaternion.identity);
-        }
 
         UpdatePlayerList();
     }

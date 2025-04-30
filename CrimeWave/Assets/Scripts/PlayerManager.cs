@@ -5,7 +5,6 @@ public class PlayerManager : MonoBehaviourPun
 {
     public static GameObject localPlayerInstance;
 
-
     private void Awake()
     {
         if (photonView.IsMine)
