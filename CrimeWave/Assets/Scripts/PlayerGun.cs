@@ -51,6 +51,7 @@ public class PlayerGun : MonoBehaviourPun
         );
 
         bullet.GetComponent<BulletLogic>().SetBulletData(currentGun); // Set the bullet data from the gun
+        bullet.GetComponent<BulletLogic>().SetShooterViewID(photonView.ViewID); // Set the shooter view ID
         bullet.transform.up = transform.up; // Set the bullet's direction to the player's direction
     }
 }

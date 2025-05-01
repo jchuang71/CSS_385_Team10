@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviourPun
     private Rigidbody2D rb;
     private float maxHealth = 100f;
     private float health;
+    [SerializeField] private float moneyDroppedOnDeath = 1000f; // money the player will drop as loot
     [SerializeField] private float money;
     [SerializeField] private Camera cam; // Reference to the camera
 
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviourPun
     {
         rb = GetComponent<Rigidbody2D>();
         health = maxHealth;
+        money = 0f; // Initialize money to 0
 
         StartCoroutine(AssignCameraWhenReady()); // Start the coroutine to assign the camera when it's ready
         
@@ -71,7 +73,7 @@ public class PlayerController : MonoBehaviourPun
     {
         if (cam == null)
         {
-            Debug.LogError("Camera is not assigned or instantiated!");
+//            Debug.LogError("Camera is not assigned or instantiated!");
             return; // Exit if camera is null
         }
         Vector3 mouseScreenPos = Input.mousePosition;
@@ -116,12 +118,19 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
-    public void AddHealth(float amount)
+    public void ChangeHealthBy(float amount)
     {
         health += amount;
+        if(health <= 0)
+        {
+            // Handle player death here, e.g., respawn or game over
+            Debug.Log("Player is dead!");
+            ChangeMoneyBy(-moneyDroppedOnDeath); // Drop money on death
+            // Call loot drop function
+        }
     }
 
-    public void AddMoney(float amount)
+    public void ChangeMoneyBy(float amount)
     {
         money += amount;
     }

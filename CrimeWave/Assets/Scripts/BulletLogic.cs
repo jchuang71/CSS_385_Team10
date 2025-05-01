@@ -6,6 +6,7 @@ public class BulletLogic : MonoBehaviourPun
     public float speed; // Speed of the bullet
     public float range; // Range of the bullet
     public float damage; // Damage dealt by the bullet
+    private int shooterViewID;
     private float distanceTravelled; // Distance traveled by the bullet
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -33,6 +34,14 @@ public class BulletLogic : MonoBehaviourPun
         }
     }
 
+    public void SetShooterViewID(int viewID)
+    {
+        if (photonView.IsMine)
+        {
+            shooterViewID = viewID; // Set the shooter view ID
+        }
+    }
+
     void BulletMovement()
     {
         if (photonView.IsMine)
@@ -52,11 +61,18 @@ public class BulletLogic : MonoBehaviourPun
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        PhotonView otherPhotonView = other.GetComponent<PhotonView>();
         if (photonView.IsMine)
         {
             if (other.CompareTag("Destructible"))
             {
-                PhotonNetwork.Destroy(other.gameObject); // Destroy target
+                other.gameObject.GetComponent<DestructibleObject>().RemoveHealth(damage); // Call the RemoveHealth function on the destructible object
+                PhotonNetwork.Destroy(gameObject); // Destroy bullet
+            }
+            if (other.CompareTag("Player") && otherPhotonView != null && otherPhotonView.ViewID != shooterViewID)
+            {
+                // Check if the bullet hit a player and it's not the shooter
+                other.gameObject.GetComponent<PlayerController>().ChangeHealthBy(-damage); // Call the RemoveHealth function on the player
                 PhotonNetwork.Destroy(gameObject); // Destroy bullet
             }
         }

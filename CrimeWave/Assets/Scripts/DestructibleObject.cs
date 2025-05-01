@@ -23,6 +23,23 @@ public class DestructibleObject : MonoBehaviourPun
         health += amount;
     }
 
+    public void RemoveHealth(float amount)
+    {
+        health -= amount;
+        if (health <= 0)
+        {
+            DropLoot(); // Call loot drop function
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
+
+    public void DropLoot()
+    {
+        // Implement loot drop logic here, e.g., instantiate loot prefab at this position
+        Debug.Log("Dropping loot from " + gameObject.name);
+    }
+
+/*
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Player"))
@@ -31,4 +48,5 @@ public class DestructibleObject : MonoBehaviourPun
             PhotonNetwork.Destroy(gameObject);
         }
     }
+    */
 }
