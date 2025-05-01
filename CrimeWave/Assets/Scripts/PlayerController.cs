@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 public class PlayerController : MonoBehaviourPun
 {
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviourPun
     private Rigidbody2D rb;
     private float maxHealth = 100f;
     private float health;
+    public TMP_Text healthText; // Reference to the health text UI element
     [SerializeField] private float moneyDroppedOnDeath = 1000f; // money the player will drop as loot
     [SerializeField] private float money;
     [SerializeField] private Camera cam; // Reference to the camera
@@ -21,6 +23,11 @@ public class PlayerController : MonoBehaviourPun
 
         StartCoroutine(AssignCameraWhenReady()); // Start the coroutine to assign the camera when it's ready
         
+        if (photonView.IsMine)
+        {
+            // Only assign the UI if this is the local player
+            healthText = GameObject.Find("HealthText").GetComponent<TMP_Text>();
+        }
         // cam = Camera.main; // Assign once at Start
         // if (cam == null)
         // {
@@ -120,13 +127,19 @@ public class PlayerController : MonoBehaviourPun
 
     public void ChangeHealthBy(float amount)
     {
-        health += amount;
-        if(health <= 0)
+        if (photonView.IsMine)
         {
-            // Handle player death here, e.g., respawn or game over
-            Debug.Log("Player is dead!");
-            ChangeMoneyBy(-moneyDroppedOnDeath); // Drop money on death
-            // Call loot drop function
+            health += amount;
+            if(health <= 0)
+            {
+                // Handle player death here, e.g., respawn or game over
+                Debug.Log("Player is dead!");
+                ChangeMoneyBy(-moneyDroppedOnDeath); // Drop money on death
+                health = maxHealth; // Reset health for respawn
+                // Call loot drop function
+            }
+            // Only assign the UI if this is the local player
+            healthText.text = "Health: " + health.ToString("F0"); // Update health text UI to 0 decimal places
         }
     }
 
