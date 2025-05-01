@@ -94,17 +94,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                          " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
                          PhotonNetwork.CurrentRoom.MaxPlayers + ")";
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            GameObject p1 = PhotonNetwork.Instantiate("Player1Square", Vector2.zero, Quaternion.identity);
-            //p1.GetComponent<SpriteRenderer>().enabled = false;
-            //p1.GetComponent<PlayerController>().enabled = false;
-        }
-        else
-        {
-            GameObject p2 = PhotonNetwork.Instantiate("Player2Square", new Vector2(2, 2), Quaternion.identity);
-        }
-
         UpdatePlayerList();
     }
 
