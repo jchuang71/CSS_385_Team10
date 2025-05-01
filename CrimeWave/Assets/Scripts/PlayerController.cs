@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviourPun
         if (photonView.IsMine)
         {
             // Only assign the UI if this is the local player
-            healthText = GameObject.Find("HealthText").GetComponent<TMP_Text>();
+//            healthText = GameObject.Find("HealthText").GetComponent<TMP_Text>();
         }
         // cam = Camera.main; // Assign once at Start
         // if (cam == null)
@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviourPun
                 // Call loot drop function
             }
             // Only assign the UI if this is the local player
-            healthText.text = "Health: " + health.ToString("F0"); // Update health text UI to 0 decimal places
+            //healthText.text = "Health: " + health.ToString("F0"); // Update health text UI to 0 decimal places
         }
     }
 
