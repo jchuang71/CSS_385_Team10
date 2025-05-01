@@ -49,4 +49,16 @@ public class BulletLogic : MonoBehaviourPun
             }
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (photonView.IsMine)
+        {
+            if (other.CompareTag("Destructible"))
+            {
+                PhotonNetwork.Destroy(other.gameObject); // Destroy target
+                PhotonNetwork.Destroy(gameObject); // Destroy bullet
+            }
+        }
+    }
 }
