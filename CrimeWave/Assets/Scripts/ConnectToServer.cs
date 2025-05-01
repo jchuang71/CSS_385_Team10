@@ -3,11 +3,13 @@ using UnityEngine.SceneManagement; // For scene management
 using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Realtime;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
-    [SerializeField] public TMP_InputField userNameInputField; // Input field for the player to enter their username
-    [SerializeField] public TMP_Text connectButtonText; // Button to initiate connection to the server
+    [SerializeField] private TMP_InputField userNameInputField; // Input field for the player to enter their username
+    [SerializeField] private Button connectButton; // Button to initiate connection to the server
+
     string userName = "Player"; // Default username for the player
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -20,6 +22,14 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            OnClickConnectToServer();
+        }
+    }
+
     public void OnClickConnectToServer()
     {
 
@@ -29,7 +39,9 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         }
 
         PhotonNetwork.NickName = userName; // Set the player's nickname to the default username
-        connectButtonText.text = "Connecting..."; // Change the button text to indicate connection in progress
+        connectButton.GetComponentInChildren<TextMeshProUGUI>().text = "Connecting..."; // Change the button text to indicate connection in progress
+        connectButton.interactable = false;
+
         Debug.Log("directly before connecting awaiting connect...");
         PhotonNetwork.ConnectUsingSettings(); // Connect to Photon server using the settings defined in the PhotonServerSettings file
         Debug.Log("Connecting to server...");
@@ -38,5 +50,12 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         SceneManager.LoadScene("Lobby"); // Load the lobby scene after connecting to the server
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
+        connectButton.GetComponent<TextMeshProUGUI>().text = "Connect";
+        connectButton.interactable = true;
     }
 }
