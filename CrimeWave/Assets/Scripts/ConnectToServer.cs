@@ -15,6 +15,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
+
         // Set the initial text in the input field to the default userName
         if (userNameInputField != null)
         {
@@ -49,7 +51,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        SceneManager.LoadScene("Lobby"); // Load the lobby scene after connecting to the server
+        PhotonNetwork.LoadLevel("Lobby"); // Load the lobby scene after connecting to the server
     }
 
     public override void OnDisconnected(DisconnectCause cause)

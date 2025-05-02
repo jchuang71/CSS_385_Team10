@@ -15,18 +15,21 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject player1;
     public GameObject player2;
 
-    public GameObject playButton;
 
     //public GameObject playersPanel;
     public TMP_Text player1Text;
     public TMP_Text player2Text;
 
+    // lobby related game objects
     public TMP_InputField roomInputField;
-    public GameObject lobbyPanel;
-    public GameObject roomPanel;
-    public TMP_Text roomName;
+    public TMP_InputField joinRoomInputField;
+    public GameObject lobbyUI;
     public GameObject roomsList;
-    public GameObject leaveButton;
+
+    // room related game objects
+    public GameObject roomUI;
+    public TMP_Text roomName;
+    public GameObject playButton;
 
     public RoomItem roomItemPrefab;
     List<RoomItem> roomItemsList = new List<RoomItem>();
@@ -35,20 +38,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public float timeBetweenUpdates = 1.5f;
     float nextUpdateTime;
 
-    public TMP_InputField joinRoomInputField;
-
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.JoinLobby();
     }
 
-    public void OnClickJoinRoom()
+    public override void OnJoinedLobby()
     {
-        if (!string.IsNullOrEmpty(joinRoomInputField.text))
-        {
-            PhotonNetwork.JoinRoom(joinRoomInputField.text);
-        }
+        Debug.Log("Successfully joined lobby.");
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -58,9 +56,85 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // Could add a UI Text component to display errors
     }
 
+    public override void OnJoinedRoom()
+    {
+        lobbyUI.SetActive(false);
+        roomUI.SetActive(true);
+
+        if(PhotonNetwork.IsMasterClient)
+            playButton.SetActive(true);
+        else
+            playButton.SetActive(false);
+
+        roomName.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name +
+                            " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
+                            PhotonNetwork.CurrentRoom.MaxPlayers + ")";
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameObject p1 = PhotonNetwork.Instantiate("Player1Square", Vector2.zero, Quaternion.identity);
+            //p1.GetComponent<SpriteRenderer>().enabled = false;
+            //p1.GetComponent<PlayerController>().enabled = false;
+        }
+        else
+        {
+            GameObject p2 = PhotonNetwork.Instantiate("Player2Square", new Vector2(2, 2), Quaternion.identity);
+        }
+
+        UpdatePlayerList();
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        if(Time.time >= nextUpdateTime)
+        {
+            UpdateRoomList(roomList);
+            nextUpdateTime = Time.time + timeBetweenUpdates;
+        }
+    }
+
+    public override void OnLeftRoom()
+    {
+        roomUI.SetActive(false);
+        lobbyUI.SetActive(true);
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        roomName.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name +
+                         " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
+                         PhotonNetwork.CurrentRoom.MaxPlayers + ")";
+        UpdatePlayerList();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        roomName.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name +
+                         " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
+                         PhotonNetwork.CurrentRoom.MaxPlayers + ")";
+        UpdatePlayerList();
+    }
+
+    public void JoinRoom(string roomName)
+    {
+        PhotonNetwork.JoinRoom(roomName);
+    }
+
+    public void OnClickJoinRoom()
+    {
+        if (!string.IsNullOrEmpty(joinRoomInputField.text))
+        {
+            JoinRoom(joinRoomInputField.text);
+        }
+    }
     public void OnClickCreate()
     {
         PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() { MaxPlayers = 2 });
+    }
+
+    public void OnClickLeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
     }
 
     public void OnClickPlay()
@@ -80,44 +154,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
 
     }
-
-
-    public override void OnJoinedRoom()
-    {
-        lobbyPanel.SetActive(false);
-        roomsList.SetActive(false);
-        roomPanel.SetActive(true);
-        leaveButton.SetActive(true);
-        playButton.SetActive(true);
-        //playersPanel.SetActive(true);
-        roomName.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name +
-                         " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
-                         PhotonNetwork.CurrentRoom.MaxPlayers + ")";
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            GameObject p1 = PhotonNetwork.Instantiate("Player1Square", Vector2.zero, Quaternion.identity);
-            //p1.GetComponent<SpriteRenderer>().enabled = false;
-            //p1.GetComponent<PlayerController>().enabled = false;
-        }
-        else
-        {
-            GameObject p2 = PhotonNetwork.Instantiate("Player2Square", new Vector2(2, 2), Quaternion.identity);
-        }
-
-        UpdatePlayerList();
-    }
-
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-
-        if(Time.time >= nextUpdateTime)
-        {
-            UpdateRoomList(roomList);
-            nextUpdateTime = Time.time + timeBetweenUpdates;
-        }
-    }
-
     private void UpdateRoomList(List<RoomInfo> list)
     {
         foreach (RoomItem item in roomItemsList)
@@ -136,58 +172,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
     }
-
-    public void JoinRoom(string roomName)
-    {
-        PhotonNetwork.JoinRoom(roomName);
-    }
-
-    public void OnClickLeaveRoom()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
-
-    public override void OnLeftRoom()
-    {
-        roomPanel.SetActive(false);
-        //playersPanel.SetActive(false);
-        leaveButton.SetActive(false);
-        lobbyPanel.SetActive(true);
-        roomsList.SetActive(true);
-    }
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        roomName.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name +
-                         " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
-                         PhotonNetwork.CurrentRoom.MaxPlayers + ")";
-        UpdatePlayerList();
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        roomName.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name +
-                         " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
-                         PhotonNetwork.CurrentRoom.MaxPlayers + ")";
-        UpdatePlayerList();
-    }
-
-
-    public override void OnConnectedToMaster()
-    {
-        Debug.Log("Connected to Master Server in Lobby scene");
-        PhotonNetwork.JoinLobby();
-    }
-
-    //public override void OnJoinedLobby()
-    //{
-    //    Debug.Log("Joined lobby successfully"); // ADDED: Debug info
-    //                                            // Make sure UI is in the right state when rejoining lobby
-    //    lobbyPanel.SetActive(true);
-    //    roomsList.SetActive(true);
-    //    roomPanel.SetActive(false);
-    //    leaveButton.SetActive(false);
-    //}
 
     private void UpdatePlayerList()
     {
