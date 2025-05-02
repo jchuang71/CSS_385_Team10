@@ -1098,8 +1098,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 498837445}
   m_HandleRect: {fileID: 498837444}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.68550664
+  m_Value: 0.99999964
+  m_Size: 0.6855066
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1195,14 +1195,14 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_Spacing: 0
-  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 1
-  m_ChildScaleHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
 --- !u!1 &662496091
 GameObject:
@@ -3491,7 +3491,7 @@ MonoBehaviour:
   roomUI: {fileID: 542084247}
   roomName: {fileID: 1559217631}
   playButton: {fileID: 229211515}
-  roomItemPrefab: {fileID: 5142892505319708049, guid: d2acdcab557c76645a0a7609657fdba4, type: 3}
+  roomItemPrefab: {fileID: 3604123051112903060, guid: d2acdcab557c76645a0a7609657fdba4, type: 3}
   contentObject: {fileID: 640017811}
   timeBetweenUpdates: 1.5
 --- !u!1 &1826341105

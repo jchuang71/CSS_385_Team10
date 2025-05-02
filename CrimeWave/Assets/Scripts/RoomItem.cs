@@ -26,6 +26,11 @@ public class RoomItem : MonoBehaviour
         roomName.text = $"{_roomName} ({currentPlayers}/{maxPlayers})";
     }
 
+    public string GetRoomNameOnly()
+    {
+        return roomNameOnly;
+    }
+
     public void OnClickItem()
     {
         manager.JoinRoom(roomNameOnly);

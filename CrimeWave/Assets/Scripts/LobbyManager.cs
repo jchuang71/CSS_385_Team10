@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using ExitGames.Client.Photon;
+using System.Collections;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -31,7 +32,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public TMP_Text roomName;
     public GameObject playButton;
 
-    public RoomItem roomItemPrefab;
+    public GameObject roomItemPrefab;
     List<RoomItem> roomItemsList = new List<RoomItem>();
     public Transform contentObject;
 
@@ -41,6 +42,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.JoinLobby();
+    }
+
+    // This is called when left the room, rejoin lobby once left the room to continue updating room lists
+    public override void OnConnectedToMaster()
+    {
+        Debug.Log("Connected to Master Server...");
         PhotonNetwork.JoinLobby();
     }
 
@@ -87,10 +95,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        if(Time.time >= nextUpdateTime)
+        Debug.Log("Updated room list..");
+
+        foreach (RoomItem room in roomItemsList)
         {
-            UpdateRoomList(roomList);
-            nextUpdateTime = Time.time + timeBetweenUpdates;
+            Destroy(room.gameObject);
+        }
+
+        roomItemsList.Clear();
+
+        foreach (RoomInfo room in roomList)
+        {
+            if (!room.RemovedFromList)
+            {
+                RoomItem newRoom = Instantiate(roomItemPrefab, contentObject).GetComponent<RoomItem>();
+                newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
+                roomItemsList.Add(newRoom);
+            }
         }
     }
 
@@ -154,24 +175,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             SceneManager.LoadScene("Game");
         }
 
-    }
-    private void UpdateRoomList(List<RoomInfo> list)
-    {
-        foreach (RoomItem item in roomItemsList)
-        {
-            Destroy(item.gameObject);
-        }
-        roomItemsList.Clear();
-
-        foreach (RoomInfo room in list)
-        {
-            if (!room.RemovedFromList)
-            {
-                RoomItem newRoom = Instantiate(roomItemPrefab, lobbyUI.transform.Find("Content"));
-                newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
-                roomItemsList.Add(newRoom);
-            }
-        }
     }
 
     private void UpdatePlayerList()
