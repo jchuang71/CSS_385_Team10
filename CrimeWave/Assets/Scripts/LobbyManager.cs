@@ -168,29 +168,21 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     }
 
-    private void UpdateRoomList(List<RoomInfo> roomList)
+    private void UpdateRoomList(List<RoomInfo> list)
     {
-        foreach (RoomInfo room in roomList)
+        foreach (RoomItem item in roomItemsList)
         {
-            if (room.RemovedFromList || room.PlayerCount == room.MaxPlayers)
-            {
-                int index = roomItemsList.FindIndex(x => x.GetRoomNameOnly() == room.Name);
+            Destroy(item.gameObject);
+        }
+        roomItemsList.Clear();
 
-                if (index != -1)
-                {
-                    Destroy(roomItemsList[index].gameObject);
-                    roomItemsList.RemoveAt(index);
-                }
-
-            }
-            else
+        foreach (RoomInfo room in list)
+        {
+            if (!room.RemovedFromList)
             {
-                if (!roomItemsList.Find(x => x.GetRoomNameOnly().Equals(room.Name)))
-                {
-                    RoomItem newRoom = Instantiate(roomItemPrefab, contentObject).GetComponent<RoomItem>();
-                    newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
-                    roomItemsList.Add(newRoom);
-                }
+                RoomItem newRoom = Instantiate(roomItemPrefab, contentObject).GetComponent<RoomItem>();
+                newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
+                roomItemsList.Add(newRoom);
             }
         }
     }
