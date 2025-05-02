@@ -107,6 +107,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
                 roomItemsList.Add(newRoom);
             }
+            else
+            {
+                int index = roomItemsList.FindIndex(x => x.GetRoomNameOnly() == room.Name);
+
+                if(index != -1)
+                {
+                    Destroy(roomItemsList[index].gameObject);
+                    roomItemsList.RemoveAt(index);
+                }
+            }
         }
     }
 
@@ -114,8 +124,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         roomUI.SetActive(false);
         lobbyUI.SetActive(true);
-
-        ClearRoomList();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -172,16 +180,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             SceneManager.LoadScene("Game");
         }
 
-    }
-
-    private void ClearRoomList()
-    {
-        foreach (RoomItem room in roomItemsList)
-        {
-            Destroy(room.gameObject);
-        }
-
-        roomItemsList.Clear();
     }
 
     private void UpdatePlayerList()
