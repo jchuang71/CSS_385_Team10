@@ -3486,6 +3486,8 @@ MonoBehaviour:
   player2Text: {fileID: 995336198}
   roomInputField: {fileID: 872988331}
   joinRoomInputField: {fileID: 2033755727}
+  createButton: {fileID: 1686255415}
+  joinButton: {fileID: 525875851}
   lobbyUI: {fileID: 1373273237}
   roomsList: {fileID: 1335454387}
   roomUI: {fileID: 542084247}

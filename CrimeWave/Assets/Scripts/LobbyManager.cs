@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 using ExitGames.Client.Photon;
 using System.Collections;
+using Unity.Collections;
+using Button = UnityEngine.UI.Button;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -97,16 +99,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Updated room list..");
 
-        foreach (RoomItem room in roomItemsList)
-        {
-            Destroy(room.gameObject);
-        }
-
-        roomItemsList.Clear();
-
         foreach (RoomInfo room in roomList)
         {
-            if (!room.RemovedFromList)
+            if (!room.RemovedFromList && roomItemsList.Find(x => x.GetRoomNameOnly() == room.Name) == null)
             {
                 RoomItem newRoom = Instantiate(roomItemPrefab, contentObject).GetComponent<RoomItem>();
                 newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
@@ -119,6 +114,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         roomUI.SetActive(false);
         lobbyUI.SetActive(true);
+
+        ClearRoomList();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -175,6 +172,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             SceneManager.LoadScene("Game");
         }
 
+    }
+
+    private void ClearRoomList()
+    {
+        foreach (RoomItem room in roomItemsList)
+        {
+            Destroy(room.gameObject);
+        }
+
+        roomItemsList.Clear();
     }
 
     private void UpdatePlayerList()
