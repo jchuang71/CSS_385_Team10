@@ -99,28 +99,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Updated room list..");
 
-        foreach (RoomInfo room in roomList)
+        if (Time.time >= nextUpdateTime)
         {
-            if (room.RemovedFromList || room.PlayerCount == room.MaxPlayers)
-            {
-                int index = roomItemsList.FindIndex(x => x.GetRoomNameOnly() == room.Name);
-
-                if (index != -1)
-                {
-                    Destroy(roomItemsList[index].gameObject);
-                    roomItemsList.RemoveAt(index);
-                }
-                
-            }
-            else
-            {
-                if (!roomItemsList.Find(x => x.GetRoomNameOnly().Equals(room.Name)))
-                {
-                    RoomItem newRoom = Instantiate(roomItemPrefab, contentObject).GetComponent<RoomItem>();
-                    newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
-                    roomItemsList.Add(newRoom);
-                }
-            }
+            UpdateRoomList(roomList);
+            nextUpdateTime = Time.time + timeBetweenUpdates;
         }
     }
 
@@ -186,14 +168,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     }
 
-    private void ClearRoomList()
+    private void UpdateRoomList(List<RoomInfo> list)
     {
-        foreach (RoomItem room in roomItemsList)
+        foreach (RoomItem item in roomItemsList)
         {
-            Destroy(room.gameObject);
+            Destroy(item.gameObject);
         }
-
         roomItemsList.Clear();
+
+        foreach (RoomInfo room in list)
+        {
+            if (!room.RemovedFromList)
+            {
+                RoomItem newRoom = Instantiate(roomItemPrefab, contentObject).GetComponent<RoomItem>();
+                newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
+                roomItemsList.Add(newRoom);
+            }
+        }
     }
 
     private void UpdatePlayerList()
