@@ -61,6 +61,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         lobbyUI.SetActive(false);
         roomUI.SetActive(true);
 
+        // Disable play button for non hosts
         if(PhotonNetwork.IsMasterClient)
             playButton.SetActive(true);
         else
@@ -166,7 +167,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             if (!room.RemovedFromList)
             {
-                RoomItem newRoom = Instantiate(roomItemPrefab, contentObject);
+                RoomItem newRoom = Instantiate(roomItemPrefab, lobbyUI.transform.Find("Content"));
                 newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
                 roomItemsList.Add(newRoom);
             }
