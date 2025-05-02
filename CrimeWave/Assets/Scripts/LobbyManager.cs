@@ -101,20 +101,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         foreach (RoomInfo room in roomList)
         {
-            if (!room.RemovedFromList && roomItemsList.Find(x => x.GetRoomNameOnly() == room.Name) == null)
-            {
-                RoomItem newRoom = Instantiate(roomItemPrefab, contentObject).GetComponent<RoomItem>();
-                newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
-                roomItemsList.Add(newRoom);
-            }
-            else
+            if (room.RemovedFromList || room.PlayerCount == room.MaxPlayers)
             {
                 int index = roomItemsList.FindIndex(x => x.GetRoomNameOnly() == room.Name);
 
-                if(index != -1)
+                if (index != -1)
                 {
                     Destroy(roomItemsList[index].gameObject);
                     roomItemsList.RemoveAt(index);
+                }
+                
+            }
+            else
+            {
+                if (!roomItemsList.Find(x => x.GetRoomNameOnly().Equals(room.Name)))
+                {
+                    RoomItem newRoom = Instantiate(roomItemPrefab, contentObject).GetComponent<RoomItem>();
+                    newRoom.SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers);
+                    roomItemsList.Add(newRoom);
                 }
             }
         }
@@ -180,6 +184,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             SceneManager.LoadScene("Game");
         }
 
+    }
+
+    private void ClearRoomList()
+    {
+        foreach (RoomItem room in roomItemsList)
+        {
+            Destroy(room.gameObject);
+        }
+
+        roomItemsList.Clear();
     }
 
     private void UpdatePlayerList()
