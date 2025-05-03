@@ -5,6 +5,7 @@ public class DestructibleObject : MonoBehaviourPun
 {
     private float maxHealth = 20f;
     private float health;
+    public CurrencyHandler ch;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,7 +36,7 @@ public class DestructibleObject : MonoBehaviourPun
 
     public void DropLoot()
     {
-        // Implement loot drop logic here, e.g., instantiate loot prefab at this position
+        ch.GenerateLoot(ch.money);
         Debug.Log("Dropping loot from " + gameObject.name);
     }
 
