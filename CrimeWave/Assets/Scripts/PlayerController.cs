@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviourPun
     private Rigidbody2D rb;
     private float maxHealth = 100f;
     private float health;
+    public AudioSource soundEffects; // Reference to the audio source for player sounds
+    public AudioClip collectMoney; // Reference to the audio clip for collecting money
     public TMP_Text healthText; // Reference to the health text UI element
     public TMP_Text moneyText; // Reference to the money text UI element
     [SerializeField] private int moneyDroppedOnDeath = 1000; // money the player will drop as loot
@@ -153,6 +155,11 @@ public class PlayerController : MonoBehaviourPun
     {
         if (other.tag == "Money")
         {
+            //Play collecting money sound
+            soundEffects.clip = collectMoney;
+            soundEffects.Play();
+            // Display money gained over item through screen space canvas
+            // Add the money to the player's currency
             other.GetComponent<CurrencyHandler>().GiveMoney(ch, other.GetComponent<CurrencyHandler>().money);
             // Destroy the money object after picking it up
             Destroy(other.gameObject);
