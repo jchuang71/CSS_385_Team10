@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -5478923330931764868}
   - component: {fileID: 5179768426554855131}
   - component: {fileID: -8585485053867328722}
+  - component: {fileID: 3293672760812938978}
   m_Layer: 0
   m_Name: Player1Square
   m_TagString: Player
@@ -194,7 +195,7 @@ MonoBehaviour:
   moveSpeed: 5
   healthText: {fileID: 0}
   moneyDroppedOnDeath: 1000
-  money: 0
+  ch: {fileID: 0}
   cam: {fileID: 0}
 --- !u!114 &-5478923330931764868
 MonoBehaviour:
@@ -248,3 +249,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: 50baf885e5ad0e844885592101aa93a9, type: 2}
+--- !u!114 &3293672760812938978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2383410608151954529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa69cd2c604c1f44816501b83d1e49c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  money: 0

@@ -12,14 +12,14 @@ public class PlayerController : MonoBehaviourPun
     private float health;
     public TMP_Text healthText; // Reference to the health text UI element
     [SerializeField] private float moneyDroppedOnDeath = 1000f; // money the player will drop as loot
-    [SerializeField] private float money;
+    public CurrencyHandler ch; // Reference to the CurrencyHandler script
     [SerializeField] private Camera cam; // Reference to the camera
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         health = maxHealth;
-        money = 0f; // Initialize money to 0
+        ch = GetComponent<CurrencyHandler>(); // Get the CurrencyHandler component attached to the player
 
         StartCoroutine(AssignCameraWhenReady()); // Start the coroutine to assign the camera when it's ready
         
@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviourPun
             {
                 // Handle player death here, e.g., respawn or game over
                 Debug.Log("Player is dead!");
-                ChangeMoneyBy(-moneyDroppedOnDeath); // Drop money on death
+                // Drop money on death
                 health = maxHealth; // Reset health for respawn
                 // Call loot drop function
             }
@@ -143,8 +143,13 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
-    public void ChangeMoneyBy(float amount)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        money += amount;
+        if (other.tag == "Money")
+        {
+            other.GetComponent<CurrencyHandler>().GiveMoney(ch, other.GetComponent<CurrencyHandler>().money);
+            // Destroy the money object after picking it up
+            Destroy(other.gameObject);
+        }
     }
 }
