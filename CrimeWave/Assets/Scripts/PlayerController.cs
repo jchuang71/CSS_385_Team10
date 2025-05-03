@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviourPun
     private float maxHealth = 100f;
     private float health;
     public TMP_Text healthText; // Reference to the health text UI element
-    [SerializeField] private float moneyDroppedOnDeath = 1000f; // money the player will drop as loot
+    [SerializeField] private int moneyDroppedOnDeath = 1000; // money the player will drop as loot
     public CurrencyHandler ch; // Reference to the CurrencyHandler script
     [SerializeField] private Camera cam; // Reference to the camera
 
@@ -134,9 +134,9 @@ public class PlayerController : MonoBehaviourPun
             {
                 // Handle player death here, e.g., respawn or game over
                 Debug.Log("Player is dead!");
-                // Drop money on death
                 health = maxHealth; // Reset health for respawn
                 // Call loot drop function
+                ch.GenerateLoot(moneyDroppedOnDeath);
             }
             // Only assign the UI if this is the local player
             //healthText.text = "Health: " + health.ToString("F0"); // Update health text UI to 0 decimal places

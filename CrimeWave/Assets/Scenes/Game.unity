@@ -1336,6 +1336,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoneyStack
       objectReference: {fileID: 0}
+    - target: {fileID: 5505395251141569475, guid: b9c59590ca5e9e545a206a1110887531, type: 3}
+      propertyPath: money
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6163017029338282029, guid: b9c59590ca5e9e545a206a1110887531, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5
