@@ -14,11 +14,6 @@ using Button = UnityEngine.UI.Button;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    // Players
-    public GameObject player1;
-    public GameObject player2;
-
-
     //public GameObject playersPanel;
     public TMP_Text player1Text;
     public TMP_Text player2Text;
@@ -43,15 +38,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+
+        if (!PhotonNetwork.IsConnected)
+            PhotonNetwork.ConnectUsingSettings();
+
+        if (PhotonNetwork.IsConnectedAndReady)
+            PhotonNetwork.JoinLobby();
+
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.JoinLobby();
     }
 
     // This is called when left the room, rejoin lobby once left the room to continue updating room lists
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Master Server...");
-        PhotonNetwork.JoinLobby();
+
+        if (!PhotonNetwork.InLobby)
+            PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
@@ -80,17 +83,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         roomName.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name +
                             " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
                             PhotonNetwork.CurrentRoom.MaxPlayers + ")";
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            GameObject p1 = PhotonNetwork.Instantiate("Player1Square", Vector2.zero, Quaternion.identity);
-            //p1.GetComponent<SpriteRenderer>().enabled = false;
-            //p1.GetComponent<PlayerController>().enabled = false;
-        }
-        else
-        {
-            GameObject p2 = PhotonNetwork.Instantiate("Player2Square", new Vector2(2, 2), Quaternion.identity);
-        }
 
         UpdatePlayerList();
     }
@@ -142,7 +134,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void OnClickCreate()
     {
-        PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() { MaxPlayers = 2 });
+        PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() { MaxPlayers = 2, BroadcastPropsChangeToAll = true });
     }
 
     public void OnClickLeaveRoom()
@@ -220,6 +212,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if (newMasterClient.IsLocal)
+            playButton.SetActive(true);
+        else
+            playButton.SetActive(false);
     }
 
 }

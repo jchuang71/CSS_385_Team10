@@ -26,18 +26,27 @@ public class DestructibleObject : MonoBehaviourPun
 
     public void RemoveHealth(float amount)
     {
-        health -= amount;
-        if (health <= 0)
-        {
-            DropLoot(); // Call loot drop function
-            PhotonNetwork.Destroy(gameObject);
-        }
+        photonView.RPC("RemoveHealthRPC", RpcTarget.All, amount);
     }
 
     public void DropLoot()
     {
         ch.GenerateLoot(ch.money);
         Debug.Log("Dropping loot from " + gameObject.name);
+    }
+
+    [PunRPC]
+    public void RemoveHealthRPC(float amount)
+    {
+        health -= amount;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a * 0.75f);
+
+        if (health <= 0)
+        {
+            DropLoot(); // Call loot drop function
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 
 /*

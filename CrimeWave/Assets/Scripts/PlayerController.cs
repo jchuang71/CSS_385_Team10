@@ -56,8 +56,8 @@ public class PlayerController : MonoBehaviourPun
         }
 
         // Update the health and money text UI to 0 decimal places
-        healthText.text = "+ " + health.ToString("F0");
-        moneyText.text = "$ " + ch.money.ToString("F0");
+        //healthText.text = "+ " + health.ToString("F0");
+        //moneyText.text = "$ " + ch.money.ToString("F0");
     }
 
     private void FixedUpdate()
@@ -160,9 +160,9 @@ public class PlayerController : MonoBehaviourPun
             soundEffects.Play();
             // Display money gained over item through screen space canvas
             // Add the money to the player's currency
-            other.GetComponent<CurrencyHandler>().GiveMoney(ch, other.GetComponent<CurrencyHandler>().money);
+            other.GetComponent<CurrencyHandler>().GiveMoney(photonView.ViewID, other.GetComponent<CurrencyHandler>().money);
             // Destroy the money object after picking it up
-            Destroy(other.gameObject);
+            PhotonNetwork.Destroy(other.gameObject);
         }
     }
 }

@@ -1429,7 +1429,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: 0
   m_CullingMask:
@@ -1469,13 +1469,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3840870904863156978, guid: b9c59590ca5e9e545a206a1110887531, type: 3}
+      propertyPath: sceneViewId
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5219242428898603768, guid: b9c59590ca5e9e545a206a1110887531, type: 3}
       propertyPath: m_Name
       value: MoneyStack
-      objectReference: {fileID: 0}
-    - target: {fileID: 5505395251141569475, guid: b9c59590ca5e9e545a206a1110887531, type: 3}
-      propertyPath: money
-      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6163017029338282029, guid: b9c59590ca5e9e545a206a1110887531, type: 3}
       propertyPath: m_LocalPosition.x

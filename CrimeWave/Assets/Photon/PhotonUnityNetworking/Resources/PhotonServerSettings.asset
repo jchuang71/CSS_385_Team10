@@ -43,6 +43,12 @@ MonoBehaviour:
   - LeaveGame
   - Player1Square
   - Player2Square
+  - ChangePlayerColor
+  - DestroyObject
+  - GiveMoney
+  - AddMoney
+  - RemoveHealthRPC
+  - SetPlayerColor
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
