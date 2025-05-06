@@ -12,8 +12,6 @@ public class PlayerController : MonoBehaviourPun
     private float health;
     public AudioSource soundEffects; // Reference to the audio source for player sounds
     public AudioClip collectMoney; // Reference to the audio clip for collecting money
-    public TMP_Text healthText; // Reference to the health text UI element
-    public TMP_Text moneyText; // Reference to the money text UI element
     [SerializeField] private int moneyDroppedOnDeath = 1000; // money the player will drop as loot
     public CurrencyHandler ch; // Reference to the CurrencyHandler script
     [SerializeField] private Camera cam; // Reference to the camera
@@ -25,18 +23,6 @@ public class PlayerController : MonoBehaviourPun
         ch = GetComponent<CurrencyHandler>(); // Get the CurrencyHandler component attached to the player
 
         StartCoroutine(AssignCameraWhenReady()); // Start the coroutine to assign the camera when it's ready
-        
-        if (photonView.IsMine)
-        {
-            // Only assign the UI if this is the local player
-            //            healthText = GameObject.Find("HealthText").GetComponent<TMP_Text>();
-            //            moneyText = GameObject.Find("MoneyText").GetComponent<TMP_Text>();
-        }
-        // cam = Camera.main; // Assign once at Start
-        // if (cam == null)
-        // {
-        //     Debug.LogError("No camera found! Make sure the scene has a MainCamera tagged.");
-        // }
     }
 
     void Update()
@@ -147,7 +133,7 @@ public class PlayerController : MonoBehaviourPun
                 ch.GenerateLoot(moneyDroppedOnDeath);
             }
             // Only assign the UI if this is the local player
-            //healthText.text = "Health: " + health.ToString("F0"); // Update health text UI to 0 decimal places
+
         }
     }
 

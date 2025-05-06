@@ -10,10 +10,12 @@ public class PlayerGun : MonoBehaviourPun
     float lastFireTime = 0f; // Time of the last shot fired
     public AudioSource gunSounds; // Reference to the gun's audio source
     public AudioClip gunshot;
+    private UIManager uiManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        uiManager = FindObjectOfType<UIManager>();
         if(photonView.IsMine)
         {
             rb = gameObject.GetComponent<Rigidbody2D>();
@@ -58,5 +60,12 @@ public class PlayerGun : MonoBehaviourPun
         bullet.GetComponent<BulletLogic>().SetBulletData(currentGun); // Set the bullet data from the gun
         bullet.GetComponent<BulletLogic>().SetShooterViewID(photonView.ViewID); // Set the shooter view ID
         bullet.transform.up = transform.up; // Set the bullet's direction to the player's direction
+    }
+
+    void SwitchGun(Gun newGun)
+    {
+        currentGun = newGun; // Switch to the new gun
+        
+        Debug.Log("Switched to " + currentGun.gunName);
     }
 }
