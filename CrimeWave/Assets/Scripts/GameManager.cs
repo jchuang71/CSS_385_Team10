@@ -17,16 +17,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log("GameManager Start - Is connected: " + PhotonNetwork.IsConnected); // ADDED: Basic connection check
         if (PhotonNetwork.IsConnected)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                GameObject p1 = PhotonNetwork.Instantiate("Player1Square", Vector2.zero, Quaternion.identity);
-                //p1.GetComponent<SpriteRenderer>().enabled = false;
-                //p1.GetComponent<PlayerController>().enabled = false;
-            }
-            else
-            {
-                GameObject p2 = PhotonNetwork.Instantiate("Player2Square", new Vector2(2, 2), Quaternion.identity);
-            }
+            if(PlayerManager.localPlayerInstance == null)
+                CreatePlayer(); // MODIFIED: Always try to create a player if connected
         }
     }
 
@@ -37,41 +29,44 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     */
 
-    //void CreatePlayer()
-    //{
-    //    Debug.Log("Attempting to create player"); // ADDED: Debug log
+    void CreatePlayer()
+    {
+        Debug.Log("Attempting to create player"); // ADDED: Debug log
 
-    //    // Get player index (0 or 1) based on actor number
-    //    int playerIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % 2; // FIXED: Ensure valid index with modulo
-    //    Debug.Log("Player index: " + playerIndex + " from ActorNumber: " + PhotonNetwork.LocalPlayer.ActorNumber); // ADDED: Debug info
+        // Get player index (0 or 1) based on actor number
+        int playerIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % 2; // FIXED: Ensure valid index with modulo
+        Debug.Log("Player index: " + playerIndex + " from ActorNumber: " + PhotonNetwork.LocalPlayer.ActorNumber); // ADDED: Debug info
 
-    //    // Create player at different positions based on player number
-    //    Vector3 position = new Vector3(-2 + playerIndex * 4, 0, 0);
+        // Create player at different positions based on player number
+        Vector3 position = new Vector3(-2 + playerIndex * 4, 0, 0);
 
-    //    // Determine which prefab to use - FIXED: Use the exact name of the prefab files
-    //    string prefabName = (playerIndex == 0) ? "Player1Square" : "Player2Square";
-    //    Debug.Log("Using prefab name: " + prefabName); // ADDED: Debug info
+        // CHANGED: Only one prefab is in use now
+        string prefabName = playerPrefab1.name;
 
-    //    // FIXED: Test loading first to make sure resources are correctly set up
-    //    GameObject prefabTest = Resources.Load<GameObject>(prefabName);
-    //    if (prefabTest == null)
-    //    {
-    //        Debug.LogError("Cannot find prefab: " + prefabName + " in Resources folders"); // ADDED: Better error detection
-    //        return;
-    //    }
+        // Non-hosts players become blue
+        
 
-    //    // Instantiate the player using the prefab name
-    //    try
-    //    {
-    //        myPlayer = PhotonNetwork.Instantiate(prefabName, position, Quaternion.identity);
-    //        Debug.Log("Player instantiated successfully: " + prefabName); // ADDED: Success confirmation
-    //    }
-    //    catch (System.Exception e)
-    //    {
-    //        Debug.LogError("Error instantiating player: " + e.Message); // ADDED: Error handling
-    //        Debug.LogException(e); // ADDED: Full exception details
-    //    }
-    //}
+        // FIXED: Test loading first to make sure resources are correctly set up
+        GameObject prefabTest = Resources.Load<GameObject>(prefabName);
+        if (prefabTest == null)
+        {
+            Debug.LogError("Cannot find prefab: " + prefabName + " in Resources folders"); // ADDED: Better error detection
+            return;
+        }
+
+        // Instantiate the player using the prefab name
+        try
+        {
+            myPlayer = PhotonNetwork.Instantiate(prefabName, position, Quaternion.identity);
+
+            Debug.Log("Player instantiated successfully: " + prefabName); // ADDED: Success confirmation
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error instantiating player: " + e.Message); // ADDED: Error handling
+            Debug.LogException(e); // ADDED: Full exception details
+        }
+    }
 
     public void LeaveGame()
     {
@@ -90,9 +85,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.ConnectToRegion("");
     }
 
-    //public override void OnConnectedToMaster()
-    //{
-    //    Debug.Log("Reconnected to Master Server, loading Lobby"); // ADDED: Debug info
-    //    SceneManager.LoadScene("Lobby");
-    //}
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        // everybody leaves when host leaves
+        LeaveGame();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        // host leaves when anybody leaves
+        LeaveGame();
+    }
 }

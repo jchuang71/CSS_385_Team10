@@ -10,23 +10,27 @@ public class PlayerController : MonoBehaviourPun
     private Rigidbody2D rb;
     private float maxHealth = 100f;
     private float health;
+    public AudioSource soundEffects; // Reference to the audio source for player sounds
+    public AudioClip collectMoney; // Reference to the audio clip for collecting money
     public TMP_Text healthText; // Reference to the health text UI element
-    [SerializeField] private float moneyDroppedOnDeath = 1000f; // money the player will drop as loot
-    [SerializeField] private float money;
+    public TMP_Text moneyText; // Reference to the money text UI element
+    [SerializeField] private int moneyDroppedOnDeath = 1000; // money the player will drop as loot
+    public CurrencyHandler ch; // Reference to the CurrencyHandler script
     [SerializeField] private Camera cam; // Reference to the camera
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         health = maxHealth;
-        money = 0f; // Initialize money to 0
+        ch = GetComponent<CurrencyHandler>(); // Get the CurrencyHandler component attached to the player
 
         StartCoroutine(AssignCameraWhenReady()); // Start the coroutine to assign the camera when it's ready
         
         if (photonView.IsMine)
         {
             // Only assign the UI if this is the local player
-            healthText = GameObject.Find("HealthText").GetComponent<TMP_Text>();
+            //            healthText = GameObject.Find("HealthText").GetComponent<TMP_Text>();
+            //            moneyText = GameObject.Find("MoneyText").GetComponent<TMP_Text>();
         }
         // cam = Camera.main; // Assign once at Start
         // if (cam == null)
@@ -50,6 +54,10 @@ public class PlayerController : MonoBehaviourPun
 
             }
         }
+
+        // Update the health and money text UI to 0 decimal places
+        //healthText.text = "+ " + health.ToString("F0");
+        //moneyText.text = "$ " + ch.money.ToString("F0");
     }
 
     private void FixedUpdate()
@@ -134,17 +142,27 @@ public class PlayerController : MonoBehaviourPun
             {
                 // Handle player death here, e.g., respawn or game over
                 Debug.Log("Player is dead!");
-                ChangeMoneyBy(-moneyDroppedOnDeath); // Drop money on death
                 health = maxHealth; // Reset health for respawn
                 // Call loot drop function
+                ch.GenerateLoot(moneyDroppedOnDeath);
             }
             // Only assign the UI if this is the local player
-            healthText.text = "Health: " + health.ToString("F0"); // Update health text UI to 0 decimal places
+            //healthText.text = "Health: " + health.ToString("F0"); // Update health text UI to 0 decimal places
         }
     }
 
-    public void ChangeMoneyBy(float amount)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        money += amount;
+        if (other.tag == "Money")
+        {
+            //Play collecting money sound
+            soundEffects.clip = collectMoney;
+            soundEffects.Play();
+            // Display money gained over item through screen space canvas
+            // Add the money to the player's currency
+            other.GetComponent<CurrencyHandler>().GiveMoney(photonView.ViewID, other.GetComponent<CurrencyHandler>().money);
+            // Destroy the money object after picking it up
+            PhotonNetwork.Destroy(other.gameObject);
+        }
     }
 }

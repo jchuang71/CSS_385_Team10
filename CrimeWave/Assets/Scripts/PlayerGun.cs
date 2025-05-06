@@ -8,6 +8,8 @@ public class PlayerGun : MonoBehaviourPun
     Rigidbody2D rb;
     bool isHoldingFire = false; // Flag to check if the player is shooting
     float lastFireTime = 0f; // Time of the last shot fired
+    public AudioSource gunSounds; // Reference to the gun's audio source
+    public AudioClip gunshot;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,6 +45,9 @@ public class PlayerGun : MonoBehaviourPun
     public void Shoot()
     {
         // Implement shooting logic here, e.g., instantiate a bullet prefab, play sound, etc.
+        // Play the gun sound
+        gunSounds.clip = gunshot;
+        gunSounds.Play();
         Debug.Log("Shooting with " + currentGun.gunName);
         GameObject bullet = PhotonNetwork.Instantiate(
             currentGun.bulletPrefabPath, 
