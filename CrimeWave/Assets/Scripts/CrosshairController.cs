@@ -75,8 +75,9 @@ public class CrosshairController : MonoBehaviourPun
         Vector3 mousePos = Input.mousePosition;
 
         // Convert to world position
+        mousePos.z = Mathf.Abs(playerCamera.transform.position.z);
         Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);
-        worldPos.z = 0; // Set z to 0 to keep it in the 2D plane
+        worldPos.z = 0; // Keep it in 2D plane
 
         // Update the crosshair position
         crosshairObject.transform.position = worldPos;
