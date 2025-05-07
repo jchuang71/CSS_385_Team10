@@ -6,6 +6,7 @@ public class BulletLogic : MonoBehaviourPun
     public float speed; // Speed of the bullet
     public float range; // Range of the bullet
     public float damage; // Damage dealt by the bullet
+    public Vector2 positionOfImpact; // Position of impact for the bullet in the case of non range based bullets
     private int shooterViewID;
     private float distanceTravelled; // Distance traveled by the bullet
 
