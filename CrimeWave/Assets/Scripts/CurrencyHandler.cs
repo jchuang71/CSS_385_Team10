@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CurrencyHandler : MonoBehaviourPun
 {
-    public int money;
+    public float money;
     private GameObject moneyPrefab;
 
     public void Start()
@@ -11,12 +11,12 @@ public class CurrencyHandler : MonoBehaviourPun
         moneyPrefab = Resources.Load<GameObject>("Prefabs/MoneyStack");
     }
 
-    public void GiveMoney(int photonId, int amount)
+    public void GiveMoney(int photonId, float amount)
     {
         photonView.RPC("AddMoney", RpcTarget.All, new object[] { photonId, amount });
     }
 
-    public void GenerateLoot(int amount)
+    public void GenerateLoot(float amount)
     {
         //Instantiate the money prefab at the loot's position
         GameObject moneyInstance = PhotonNetwork.InstantiateRoomObject("Prefabs/" + moneyPrefab.name, transform.position, Quaternion.identity);
@@ -25,7 +25,7 @@ public class CurrencyHandler : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void AddMoney(int photonId, int amount)
+    public void AddMoney(int photonId, float amount)
     {
         // other object
         PhotonView.Find(photonId).GetComponent<CurrencyHandler>().money += amount;

@@ -137,7 +137,10 @@ public class PlayerController : MonoBehaviourPun
             }
         }
         // Only assign the UI if this is the local player
-        uiManager.SetHealthText(health); // Update the UI to the new health value
+        if(photonView.IsMine)
+        {
+            uiManager.SetHealthText(health);  //Update health text
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -147,9 +150,14 @@ public class PlayerController : MonoBehaviourPun
             //Play collecting money sound
             soundEffects.clip = collectMoney;
             soundEffects.Play();
-            // Display money gained over item through screen space canvas
+            float otherMoney = other.GetComponent<CurrencyHandler>().money;
             // Add the money to the player's currency
-            other.GetComponent<CurrencyHandler>().GiveMoney(photonView.ViewID, other.GetComponent<CurrencyHandler>().money);
+            other.GetComponent<CurrencyHandler>().GiveMoney(photonView.ViewID, otherMoney);
+            // Only assign the UI if this is the local player
+            if(photonView.IsMine)
+            {
+                uiManager.SetMoneyText(otherMoney);  //Update health text
+            }
             // Destroy the money object after picking it up
             PhotonNetwork.Destroy(other.gameObject);
         }

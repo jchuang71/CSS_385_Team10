@@ -210,8 +210,6 @@ MonoBehaviour:
   moveSpeed: 5
   soundEffects: {fileID: 2962646145553556578}
   collectMoney: {fileID: 8300000, guid: a96f037806d667d46a78e80f3ba41c5a, type: 3}
-  healthText: {fileID: 0}
-  moneyText: {fileID: 0}
   moneyDroppedOnDeath: 1000
   ch: {fileID: 0}
   cam: {fileID: 0}
@@ -266,6 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f43f56cbd53e8394fa7cf9979615fc4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  guns: []
   currentGun: {fileID: 11400000, guid: 50baf885e5ad0e844885592101aa93a9, type: 2}
   gunSounds: {fileID: 2962646145553556578}
   gunshot: {fileID: 8300000, guid: 4fdca81ef8bc1644490000d557d1843a, type: 3}

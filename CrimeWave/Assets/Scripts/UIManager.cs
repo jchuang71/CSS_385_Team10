@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
     {
         if (healthText != null)
         {
-            healthText.text = "+ " + health.ToString("F0"); // Update the health text with 0 decimal places
+            healthText.text = "Health: " + health.ToString("F0"); // Update the health text with 0 decimal places
         }
         else
         {
@@ -52,7 +52,7 @@ public class UIManager : MonoBehaviour
     {
         if (moneyText != null)
         {
-            moneyText.text = "$ " + money.ToString("F0"); // Update the money text with 0 decimal places
+            moneyText.text = "Money: $" + money.ToString("F0"); // Update the money text with 0 decimal places
         }
         else
         {
