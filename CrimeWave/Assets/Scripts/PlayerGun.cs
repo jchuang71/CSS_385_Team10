@@ -62,7 +62,7 @@ public class PlayerGun : MonoBehaviourPun
         if(Input.GetKeyDown(KeyCode.Q))
         {
             int currentGunIndex = guns.IndexOf(currentGun);
-            int nextGunIndex = (currentGunIndex - 1) % guns.Count;
+            int nextGunIndex = (currentGunIndex - 1 + guns.Count) % guns.Count; // Wrap around safe
             SwitchGun(guns[nextGunIndex]);
         }
     }

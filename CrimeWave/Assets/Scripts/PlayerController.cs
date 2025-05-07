@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] private int moneyDroppedOnDeath = 1000; // money the player will drop as loot
     public CurrencyHandler ch; // Reference to the CurrencyHandler script
     [SerializeField] private Camera cam; // Reference to the camera
+    private UIManager uiManager;
 
     private void Start()
     {
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviourPun
         ch = GetComponent<CurrencyHandler>(); // Get the CurrencyHandler component attached to the player
 
         StartCoroutine(AssignCameraWhenReady()); // Start the coroutine to assign the camera when it's ready
+
+        uiManager = UIManager.UIManagerInstance; // Get the UIManager instance
     }
 
     void Update()
@@ -74,7 +77,6 @@ public class PlayerController : MonoBehaviourPun
     {
         if (cam == null)
         {
-//            Debug.LogError("Camera is not assigned or instantiated!");
             return; // Exit if camera is null
         }
         Vector3 mouseScreenPos = Input.mousePosition;
@@ -119,12 +121,13 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
     public void ChangeHealthBy(float amount)
     {
-        if (photonView.IsMine)
+        health += amount;
+        if(health <= 0)
         {
-            health += amount;
-            if(health <= 0)
+            if (photonView.IsMine)
             {
                 // Handle player death here, e.g., respawn or game over
                 Debug.Log("Player is dead!");
@@ -132,9 +135,9 @@ public class PlayerController : MonoBehaviourPun
                 // Call loot drop function
                 ch.GenerateLoot(moneyDroppedOnDeath);
             }
-            // Only assign the UI if this is the local player
-
         }
+        // Only assign the UI if this is the local player
+        uiManager.SetHealthText(health); // Update the UI to the new health value
     }
 
     private void OnTriggerEnter2D(Collider2D other)

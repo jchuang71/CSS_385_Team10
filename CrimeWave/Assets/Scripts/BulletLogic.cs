@@ -75,10 +75,11 @@ public class BulletLogic : MonoBehaviourPun
                 other.gameObject.GetComponent<DestructibleObject>().RemoveHealth(damage); // Call the RemoveHealth function on the destructible object
                 PhotonNetwork.Destroy(gameObject); // Destroy bullet
             }
+            // Check if the bullet hit a player and it's not the shooter
             if (other.CompareTag("Player") && otherPhotonView != null && otherPhotonView.ViewID != shooterViewID)
             {
-                // Check if the bullet hit a player and it's not the shooter
-                other.gameObject.GetComponent<PlayerController>().ChangeHealthBy(-damage); // Call the RemoveHealth function on the player
+                // Call the ChangeHealthBy function on the player and sync it to all clients
+                otherPhotonView.RPC("ChangeHealthBy", RpcTarget.AllBuffered, -damage);
                 PhotonNetwork.Destroy(gameObject); // Destroy bullet
             }
         }
