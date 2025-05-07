@@ -15,11 +15,14 @@ MonoBehaviour:
   gunName: Pistol
   gunDescription: Single shot, low fire rate, small magazine. At least its fast to
     reload.
-  fireRate: 1
+  gunSelectorIndex: 0
+  fireRate: 2
   damage: 5
   range: 10
-  bulletSpeed: 10
+  bulletSpeed: 20
   bulletSplashDamageRange: 0
+  bulletsPerShot: 1
+  bulletSpread: 0
   reloadTime: 2
   magazineSize: 9
   gunSprite: {fileID: -4854829337826818713, guid: 0b6b4ce7c3836de438dcd715b49a9c6f, type: 3}

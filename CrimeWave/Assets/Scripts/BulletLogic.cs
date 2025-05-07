@@ -12,6 +12,12 @@ public class BulletLogic : MonoBehaviourPun
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (photonView.InstantiationData != null && photonView.InstantiationData.Length > 0)
+        {
+            float spreadAngle = (float)photonView.InstantiationData[0];
+            transform.Rotate(0, 0, spreadAngle); // Apply spread synced to all clients
+        }
+
         if (photonView.IsMine)
         {
             distanceTravelled = 0f; // Initialize distance travelled to 0

@@ -73,10 +73,23 @@ public class PlayerGun : MonoBehaviourPun
         gunSounds.clip = gunshot;
         gunSounds.Play();
         Debug.Log("Shooting with " + currentGun.gunName);
+        for (int i = 0; i < currentGun.bulletsPerShot; i++)
+        {
+            FireBullet();
+        }
+    }
+
+    public void FireBullet()
+    {
+        //creates a random spread for the bullet
+        float spread = Random.Range(-currentGun.bulletSpread, currentGun.bulletSpread);
+
         GameObject bullet = PhotonNetwork.Instantiate(
             currentGun.bulletPrefabPath, 
             transform.position, 
-            Quaternion.Euler(0, 0, rb.rotation)
+            Quaternion.Euler(0, 0, rb.rotation),
+            0,
+            new object[] { spread } // Send spread angle as instantiation data
         );
 
         bullet.GetComponent<BulletLogic>().SetBulletData(currentGun); // Set the bullet data from the gun
