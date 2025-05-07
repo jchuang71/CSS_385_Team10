@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 6417336174729233840}
   - component: {fileID: 2468203938232573521}
   - component: {fileID: 2962646145553556578}
+  - component: {fileID: -2016247901804281699}
   m_Layer: 0
   m_Name: Player2Square
   m_TagString: Player
@@ -378,3 +379,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-2016247901804281699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5218036956727799422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b571028ae4ecb474d87050e950e192e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshairSprite: {fileID: 21300000, guid: a2e8070d0df7bc24ea3e129a778d0f05, type: 3}
