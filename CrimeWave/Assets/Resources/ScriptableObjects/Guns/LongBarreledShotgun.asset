@@ -19,7 +19,7 @@ MonoBehaviour:
   damage: 5
   range: 10
   bulletSpeed: 20
-  bulletSplashDamageRange: 0
+  bulletSplashDamageRange: 0.5
   bulletsPerShot: 5
   bulletSpread: 10
   reloadTime: 2

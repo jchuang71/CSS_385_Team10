@@ -6,9 +6,10 @@ public class BulletLogic : MonoBehaviourPun
     public float speed; // Speed of the bullet
     public float range; // Range of the bullet
     public float damage; // Damage dealt by the bullet
-    public Vector2 positionOfImpact; // Position of impact for the bullet in the case of non range based bullets
+    public float splashDamageRange; // Splash damage range of bullet on hit or impact
     private int shooterViewID;
     private float distanceTravelled; // Distance traveled by the bullet
+    private bool hasHit = false; // Flag to check if the bullet has hit something
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,6 +39,7 @@ public class BulletLogic : MonoBehaviourPun
             speed = gun.bulletSpeed; // Set the bullet speed from the gun data
             range = gun.range; // Set the bullet range from the gun data
             damage = gun.damage; // Set the bullet damage from the gun data
+            splashDamageRange = gun.bulletSplashDamageRange; // Set the bullet splash damage range from the gun data
         }
     }
 
@@ -61,28 +63,51 @@ public class BulletLogic : MonoBehaviourPun
             // Check if the bullet has exceeded its range
             if (distanceTravelled > range)
             {
-                PhotonNetwork.Destroy(gameObject); // Destroy the bullet if it exceeds its range
+                BulletFinished(); // Call the BulletFinished function if the bullet exceeds its range
             }
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void BulletFinished()
     {
-        PhotonView otherPhotonView = other.GetComponent<PhotonView>();
-        if (photonView.IsMine)
+        //finds all colliders in the area of the bullet splash damage. Direct hitting gun will have splashDamageRange 0.
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, splashDamageRange);
+
+        foreach (Collider2D hit in hitColliders)
         {
-            if (other.CompareTag("Destructible"))
+            PhotonView hitPV = hit.GetComponent<PhotonView>();
+
+            Debug.Log("Hit: " + hit.name); // Debug log to check what the bullet hit
+
+            // Damage other players (but not the shooter)
+            if (hit.CompareTag("Player") && hitPV != null && hitPV.ViewID != shooterViewID)
             {
-                other.gameObject.GetComponent<DestructibleObject>().RemoveHealth(damage); // Call the RemoveHealth function on the destructible object
-                PhotonNetwork.Destroy(gameObject); // Destroy bullet
+                hitPV.RPC("ChangeHealthBy", RpcTarget.AllBuffered, -damage);
             }
-            // Check if the bullet hit a player and it's not the shooter
-            if (other.CompareTag("Player") && otherPhotonView != null && otherPhotonView.ViewID != shooterViewID)
+
+            // Damage destructible objects
+            if (hit.CompareTag("Destructible"))
             {
-                // Call the ChangeHealthBy function on the player and sync it to all clients
-                otherPhotonView.RPC("ChangeHealthBy", RpcTarget.AllBuffered, -damage);
-                PhotonNetwork.Destroy(gameObject); // Destroy bullet
+                hit.GetComponent<DestructibleObject>().RemoveHealth(damage);
             }
         }
+        PhotonNetwork.Destroy(gameObject); // Destroy bullet
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!photonView.IsMine || hasHit) return; // skip if not mine or already hit
+        PhotonView otherPV = other.GetComponent<PhotonView>();
+        if (other.CompareTag("Player") && otherPV != null && otherPV.ViewID != shooterViewID)
+        {
+            BulletFinished(); // Call the BulletFinished function if it hits a player
+            hasHit = true; // mark as hit so we don't double hit
+        }
+        if (other.CompareTag("Destructible"))
+        {
+            BulletFinished(); // Call the BulletFinished function if it hits a destructible object
+            hasHit = true; // mark as hit so we don't double hit
+        }
+        // otherwise hit some other object and dont do anything
     }
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public GameObject playerPrefab1; // Reference in inspector
-    public GameObject playerPrefab2; // Reference in inspector
+    public GameObject playerPrefab; // Reference in inspector
     private GameObject myPlayer;
 
     void Start()
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Vector3 position = new Vector3(-2 + playerIndex * 4, 0, 0);
 
         // CHANGED: Only one prefab is in use now
-        string prefabName = playerPrefab1.name;
+        string prefabName = "Prefabs/" + playerPrefab.name;
 
         // Non-hosts players become blue
         
