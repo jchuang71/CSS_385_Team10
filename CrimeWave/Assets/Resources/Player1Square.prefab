@@ -197,8 +197,6 @@ MonoBehaviour:
   moveSpeed: 5
   soundEffects: {fileID: 8362199762102198084}
   collectMoney: {fileID: 8300000, guid: a96f037806d667d46a78e80f3ba41c5a, type: 3}
-  healthText: {fileID: 0}
-  moneyText: {fileID: 0}
   moneyDroppedOnDeath: 1000
   ch: {fileID: 0}
   cam: {fileID: 0}

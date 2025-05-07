@@ -1,9 +1,11 @@
 using Photon.Pun;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerGun : MonoBehaviourPun
 {
+    public List<Gun> guns; // List of available guns
     public Gun currentGun; // Reference to the Gun scriptable object
     Rigidbody2D rb;
     bool isHoldingFire = false; // Flag to check if the player is shooting
@@ -15,6 +17,9 @@ public class PlayerGun : MonoBehaviourPun
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        guns = new List<Gun>(guns); // Initialize the list of guns
+        
+        currentGun = guns[0]; // Set the first gun as the current gun
         uiManager = FindObjectOfType<UIManager>();
         if(photonView.IsMine)
         {
@@ -42,6 +47,14 @@ public class PlayerGun : MonoBehaviourPun
         {
             Shoot();
             lastFireTime = Time.time;
+        }
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            // Switch to the next gun in the array
+            int currentGunIndex = System.Array.IndexOf(currentGun, currentGun);
+            int nextGunIndex = (currentGunIndex + 1) % currentGun.Length; // Loop back to the first gun if at the end
+            SwitchGun(currentGun[nextGunIndex]); // Switch to the next gun
         }
     }
     public void Shoot()
