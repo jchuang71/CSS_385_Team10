@@ -201,6 +201,8 @@ MonoBehaviour:
   moneyDroppedOnDeath: 1000
   ch: {fileID: 0}
   cam: {fileID: 0}
+  respawnDelay: 3
+  respawnImmunity: 5
 --- !u!114 &-5478923330931764868
 MonoBehaviour:
   m_ObjectHideFlags: 0

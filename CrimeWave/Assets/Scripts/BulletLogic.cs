@@ -82,7 +82,7 @@ public class BulletLogic : MonoBehaviourPun
             // Damage other players (but not the shooter)
             if (hit.CompareTag("Player") && hitPV != null && hitPV.ViewID != shooterViewID)
             {
-                hitPV.RPC("ChangeHealthBy", RpcTarget.AllBuffered, -damage);
+                hitPV.RPC("ChangeHealthBy", RpcTarget.All, -damage);
             }
 
             // Damage destructible objects

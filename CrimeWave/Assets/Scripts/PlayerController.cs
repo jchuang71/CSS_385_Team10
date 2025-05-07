@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviourPun
     public CurrencyHandler ch; // Reference to the CurrencyHandler script
     [SerializeField] private Camera cam; // Reference to the camera
     private UIManager uiManager;
+    [SerializeField] private float respawnDelay = 3f; // Delay before respawn
+    private float respawnImmunityTime = 0f; // Current time since last immunity
+    [SerializeField] private float respawnImmunity = 5f; // Delay before immunity after respawn
+    private bool isDead = false;
 
     private void Start()
     {
@@ -26,6 +30,8 @@ public class PlayerController : MonoBehaviourPun
         StartCoroutine(AssignCameraWhenReady()); // Start the coroutine to assign the camera when it's ready
 
         uiManager = UIManager.UIManagerInstance; // Get the UIManager instance
+
+        respawnImmunityTime = 0f; // Initialize immunity time so that players are immune at the start
     }
 
     void Update()
@@ -56,6 +62,7 @@ public class PlayerController : MonoBehaviourPun
         {
             MovePlayer();
             FaceCursor(); // Call the FaceCursor function to face the cursor
+            respawnImmunityTime += Time.deltaTime;
         }
     }
 
@@ -125,24 +132,69 @@ public class PlayerController : MonoBehaviourPun
     public void ChangeHealthBy(float amount)
     {
         if (isDead) return; // Ignore if already dead
-        
+        if (respawnImmunityTime < respawnImmunity) return; // Ignore if within immunity time
+
         health += amount;
-        if(health <= 0)
+        if (health <= 0)
         {
-            if (photonView.IsMine)
+            if (!isDead)
             {
-                // Handle player death here, e.g., respawn or game over
-                Debug.Log("Player is dead!");
-                health = maxHealth; // Reset health for respawn
-                // Call loot drop function
-                ch.GenerateLoot(moneyDroppedOnDeath);
+                isDead = true;
+
+                // Call death on ALL clients
+                photonView.RPC("SetAliveState", RpcTarget.All, false);
+
+                // Only the owner starts respawn logic
+                if (photonView.IsMine)
+                {
+                    Debug.Log("Player is dead!");
+                    StartCoroutine(Respawn());
+                }
             }
         }
+
         // Only assign the UI if this is the local player
         if(photonView.IsMine)
         {
             uiManager.SetHealthText(health);  //Update health text
         }
+    }
+
+    [PunRPC]
+    private void SetAliveState(bool isAlive)
+    {
+        // Disable player visuals & components on ALL clients
+        gameObject.GetComponent<SpriteRenderer>().enabled = isAlive;
+        rb.simulated = isAlive; // Disable physics
+        GetComponent<Collider2D>().enabled = isAlive;
+        GetComponent<PlayerGun>().enabled = isAlive;
+        GetComponent<CrosshairController>().enabled = isAlive;
+    }
+
+    private IEnumerator Respawn()
+    {
+        // Call loot drop function
+        ch.GenerateLoot(moneyDroppedOnDeath);
+
+        // Update UI health text
+        uiManager.SetHealthText(0);
+
+        yield return new WaitForSeconds(respawnDelay);
+
+        // Pick a random spawn point
+        transform.position = new Vector2(0,0);
+
+        // Reset health
+        health = maxHealth;
+        isDead = false;
+
+        photonView.RPC("SetAliveState", RpcTarget.All, true);
+
+        // Update UI health text
+        uiManager.SetHealthText(health);
+
+        // Reset immunity time
+        respawnImmunityTime = 0f; // Reset immunity time
     }
 
     private void OnTriggerEnter2D(Collider2D other)
