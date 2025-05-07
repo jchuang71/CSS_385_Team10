@@ -5,6 +5,7 @@ public class Gun : ScriptableObject
 {
     [SerializeField] public string gunName; // Name of the gun
     [SerializeField] public string gunDescription; // Description of the gun
+    [SerializeField] public int gunSelectorIndex; // Description of the gun
     [SerializeField] public float fireRate; // Rate of fire in shots per second
     [SerializeField] public float damage; // Damage dealt by the gun
     [SerializeField] public float range; // Range of the gun in units

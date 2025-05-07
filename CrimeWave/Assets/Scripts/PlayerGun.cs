@@ -17,10 +17,14 @@ public class PlayerGun : MonoBehaviourPun
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        guns = new List<Gun>(guns); // Initialize the list of guns
-        
-        currentGun = guns[0]; // Set the first gun as the current gun
-        uiManager = FindObjectOfType<UIManager>();
+        // loads in all guns from the Resources folder
+        guns = new List<Gun>(Resources.LoadAll<Gun>("ScriptableObjects/Guns"));
+        // sorts the guns by their selector index
+        guns.Sort((a, b) => a.gunSelectorIndex.CompareTo(b.gunSelectorIndex));
+
+        currentGun = guns[0]; // Set the first gun as the initial gun
+
+        uiManager = UIManager.UIManagerInstance; // Get the UIManager instance
         if(photonView.IsMine)
         {
             rb = gameObject.GetComponent<Rigidbody2D>();
@@ -51,10 +55,15 @@ public class PlayerGun : MonoBehaviourPun
 
         if(Input.GetKeyDown(KeyCode.E))
         {
-            // Switch to the next gun in the array
-            int currentGunIndex = System.Array.IndexOf(currentGun, currentGun);
-            int nextGunIndex = (currentGunIndex + 1) % currentGun.Length; // Loop back to the first gun if at the end
-            SwitchGun(currentGun[nextGunIndex]); // Switch to the next gun
+            int currentGunIndex = guns.IndexOf(currentGun);
+            int nextGunIndex = (currentGunIndex + 1) % guns.Count;
+            SwitchGun(guns[nextGunIndex]);
+        }
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            int currentGunIndex = guns.IndexOf(currentGun);
+            int nextGunIndex = (currentGunIndex - 1) % guns.Count;
+            SwitchGun(guns[nextGunIndex]);
         }
     }
     public void Shoot()
@@ -77,8 +86,14 @@ public class PlayerGun : MonoBehaviourPun
 
     void SwitchGun(Gun newGun)
     {
+        if (uiManager == null)
+        {
+            Debug.LogError("UIManager not found! Make sure it is in the scene."); // Error message if UIManager is not found
+            return;
+        }
+        Debug.Log(newGun.gunName + " is now selected.");
         currentGun = newGun; // Switch to the new gun
-        
+        uiManager.SetWeaponSelectorImage(currentGun.gunSprite); // Update the UI with the new gun icon
         Debug.Log("Switched to " + currentGun.gunName);
     }
 }
