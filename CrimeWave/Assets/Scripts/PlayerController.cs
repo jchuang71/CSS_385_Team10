@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
-using TMPro;
 
 public class PlayerController : MonoBehaviourPun
 {
@@ -12,7 +11,7 @@ public class PlayerController : MonoBehaviourPun
     private float health;
     public AudioSource soundEffects; // Reference to the audio source for player sounds
     public AudioClip collectMoney; // Reference to the audio clip for collecting money
-    [SerializeField] private int moneyDroppedOnDeath = 1000; // money the player will drop as loot
+    private int moneyDroppedOnDeath = 10000; // money the player will drop as loot
     public CurrencyHandler ch; // Reference to the CurrencyHandler script
     [SerializeField] private Camera cam; // Reference to the camera
     private UIManager uiManager;
@@ -119,6 +118,11 @@ public class PlayerController : MonoBehaviourPun
         {
             moveDirection += Vector2.right; // Move right
         }
+        //SUICIDE BUTTON FOR TESTING PURPOSES.
+        if(Input.GetKey(KeyCode.Space)) 
+        {
+            Death(); //suicide
+        }
 
         // Move the player based on the combined movement direction
         if (moveDirection != Vector2.zero)
@@ -137,20 +141,7 @@ public class PlayerController : MonoBehaviourPun
         health += amount;
         if (health <= 0)
         {
-            if (!isDead)
-            {
-                isDead = true;
-
-                // Call death on ALL clients
-                photonView.RPC("SetAliveState", RpcTarget.All, false);
-
-                // Only the owner starts respawn logic
-                if (photonView.IsMine)
-                {
-                    Debug.Log("Player is dead!");
-                    StartCoroutine(Respawn());
-                }
-            }
+            Death(); // Call death function if health is 0 or less
         }
 
         // Only assign the UI if this is the local player
@@ -163,6 +154,7 @@ public class PlayerController : MonoBehaviourPun
     [PunRPC]
     private void SetAliveState(bool isAlive)
     {
+        Debug.Log("SetAliveState called with isAlive: " + isAlive);
         // Disable player visuals & components on ALL clients
         gameObject.GetComponent<SpriteRenderer>().enabled = isAlive;
         rb.simulated = isAlive; // Disable physics
@@ -171,10 +163,30 @@ public class PlayerController : MonoBehaviourPun
         GetComponent<CrosshairController>().enabled = isAlive;
     }
 
-    private IEnumerator Respawn()
+    void Death()
     {
+        if (isDead) return; // Ignore if already dead
+
+        isDead = true;
+        Debug.Log("Player is dead!");
+
+        // Call death on ALL clients
+        photonView.RPC("SetAliveState", RpcTarget.All, false);
+
         // Call loot drop function
         ch.GenerateLoot(moneyDroppedOnDeath);
+        Debug.Log("Loot dropped: " + moneyDroppedOnDeath);
+
+        // Only the owner starts respawn logic
+        if (photonView.IsMine)
+        {
+            StartCoroutine(Respawn());
+        }
+    }
+
+    private IEnumerator Respawn()
+    {
+        Debug.Log("Respawning player...");
 
         // Update UI health text
         uiManager.SetHealthText(0);
@@ -199,21 +211,23 @@ public class PlayerController : MonoBehaviourPun
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Money")
+        if (other.CompareTag("Money"))
         {
-            //Play collecting money sound
-            soundEffects.clip = collectMoney;
-            soundEffects.Play();
-            float otherMoney = other.GetComponent<CurrencyHandler>().money;
-            // Add the money to the player's currency
-            other.GetComponent<CurrencyHandler>().GiveMoney(photonView.ViewID, otherMoney);
-            // Only assign the UI if this is the local player
-            if(photonView.IsMine)
+            // Only process pickup if this is the local player
+            if (photonView.IsMine)
             {
-                uiManager.SetMoneyText(otherMoney);  //Update health text
+                // Play collecting money sound
+                soundEffects.clip = collectMoney;
+                soundEffects.Play();
+
+                // Get the MoneyLoot script from the other object
+                MoneyLoot loot = other.GetComponent<MoneyLoot>();
+                if (loot != null)
+                {
+                    // Send pickup request only to MasterClient
+                    loot.photonView.RPC("RequestPickup", RpcTarget.MasterClient, photonView.ViewID);
+                }
             }
-            // Destroy the money object after picking it up
-            PhotonNetwork.Destroy(other.gameObject);
         }
     }
 }

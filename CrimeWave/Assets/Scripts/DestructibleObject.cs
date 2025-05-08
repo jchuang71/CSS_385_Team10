@@ -5,7 +5,6 @@ public class DestructibleObject : MonoBehaviourPun
 {
     private float maxHealth = 20f;
     private float health;
-    public CurrencyHandler ch;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,7 +30,10 @@ public class DestructibleObject : MonoBehaviourPun
 
     public void DropLoot()
     {
-        ch.GenerateLoot(ch.money);
+        // Pass the loot amount via instantiationData
+        object[] instantiationData = new object[] { 10000f }; // EXAMPLE AMOUNT PLEASE REPLACE WITH REAL AMOUNT
+        PhotonNetwork.InstantiateRoomObject("Prefabs/MoneyStack", transform.position, Quaternion.identity, 0, instantiationData);
+        
         Debug.Log("Dropping loot from " + gameObject.name);
     }
 
@@ -45,7 +47,10 @@ public class DestructibleObject : MonoBehaviourPun
         if (health <= 0)
         {
             DropLoot(); // Call loot drop function
-            PhotonNetwork.Destroy(gameObject);
+            if(photonView.IsMine)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
     }
 

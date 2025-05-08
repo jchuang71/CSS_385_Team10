@@ -51,6 +51,8 @@ MonoBehaviour:
   - SetPlayerColor
   - ChangeHealthBy
   - SetAliveState
+  - OnMoneyPickedUp
+  - RequestPickup
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

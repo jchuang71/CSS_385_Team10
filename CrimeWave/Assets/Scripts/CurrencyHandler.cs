@@ -1,37 +1,74 @@
 using Photon.Pun;
 using UnityEngine;
+using System.Collections;
 
 public class CurrencyHandler : MonoBehaviourPun
 {
     public float money;
     private GameObject moneyPrefab;
+    [SerializeField] public UIManager uiManager;
 
-    public void Start()
+    private void Awake()
     {
         moneyPrefab = Resources.Load<GameObject>("Prefabs/MoneyStack");
     }
 
-    public void GiveMoney(int photonId, float amount)
+    // Called when Photon instantiates this player object
+    private void Start()
     {
-        photonView.RPC("AddMoney", RpcTarget.All, new object[] { photonId, amount });
+        // Only initialize UI for the local player
+        if (photonView.IsMine)
+        {
+            StartCoroutine(WaitForUIManager());
+        }
+    }
+
+    private IEnumerator WaitForUIManager()
+    {
+        // Wait until UIManager is assigned before proceeding
+        while (uiManager == null)
+        {
+            uiManager = UIManager.UIManagerInstance;
+            yield return null; // Wait for the next frame
+        }
+        Debug.Log("UIManager assigned successfully.");
+        UpdateMoneyUI();
     }
 
     public void GenerateLoot(float amount)
     {
-        //Instantiate the money prefab at the loot's position
-        GameObject moneyInstance = PhotonNetwork.InstantiateRoomObject("Prefabs/" + moneyPrefab.name, transform.position, Quaternion.identity);
-        // Set the money amount designated by amount to the prefab using GiveMoney()
-        GiveMoney(moneyInstance.GetComponent<PhotonView>().ViewID, amount);
+        if (amount <= 0f || amount > money)
+        {
+            Debug.LogWarning("Invalid loot amount.");
+            return;
+        }
+
+        // Pass loot amount directly in instantiation data (cleaner than RPC)
+        object[] data = new object[] { amount };
+        PhotonNetwork.InstantiateRoomObject("Prefabs/MoneyStack", transform.position, Quaternion.identity, 0, data);
+
+        ChangeMoneyBy(-amount);
     }
 
-    [PunRPC]
-    public void AddMoney(int photonId, float amount)
+    // Call this when picking up loot or gaining money
+    public void ChangeMoneyBy(float amount)
     {
-        // other object
-        PhotonView.Find(photonId).GetComponent<CurrencyHandler>().money += amount;
-
-        // this object
-        PhotonView.Find(photonView.ViewID).GetComponent<CurrencyHandler>().money -= amount;
+        if (photonView.IsMine)
+        {
+            money += amount;
+            Debug.Log("Money changed by: " + amount + " New total: " + money);
+            UpdateMoneyUI();
+        }
     }
 
+    private void UpdateMoneyUI()
+    {
+        Debug.Log("photonView.IsMine: " + photonView.IsMine);
+        Debug.Log("uiManager is null? " + (uiManager == null));
+        if (photonView.IsMine && uiManager != null)
+        {
+            Debug.Log("Updating money UI: " + money);
+            uiManager.SetMoneyText(money);
+        }
+    }
 }
