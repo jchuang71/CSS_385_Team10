@@ -22,11 +22,11 @@ public class PlayerController : MonoBehaviourPun
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        health = maxHealth;
         ch = GetComponent<CurrencyHandler>(); // Get the CurrencyHandler component attached to the player
 
-        StartCoroutine(AssignCameraWhenReady()); // Start the coroutine to assign the camera when it's ready
+        health = maxHealth;
 
+        StartCoroutine(AssignCameraWhenReady()); // Start the coroutine to assign the camera when it's ready
         uiManager = UIManager.UIManagerInstance; // Get the UIManager instance
     }
 

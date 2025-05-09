@@ -6,7 +6,7 @@ using UnityEngine;
 public class DestructibleObjectManager : MonoBehaviourPunCallbacks
 {
     public List<GameObject> destructibleObjects = new List<GameObject>();
-    
+
     private float spawnInterval = 5.0f;
     private float xBounds;
     private float yBounds;
@@ -18,7 +18,10 @@ public class DestructibleObjectManager : MonoBehaviourPunCallbacks
         // should be changed eventually according to map size
         xBounds = 10.0f;
         yBounds = 10.0f;
+    }
 
+    public void StartSpawning()
+    {
         isSpawning = true;
         StartCoroutine(SpawnCoroutine());
     }

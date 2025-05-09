@@ -713,6 +713,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 952876679}
+  - component: {fileID: 952876681}
   - component: {fileID: 952876678}
   - component: {fileID: 952876680}
   m_Layer: 0
@@ -764,7 +765,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destructibleObjects:
   - {fileID: 936823387312649845, guid: 8bd5358a1eee18b44bbd10082d7403d1, type: 3}
-  - {fileID: 936823387312649845, guid: a6cb250e483eff745bd0c226f6698891, type: 3}
+  - {fileID: 936823387312649845, guid: 2ba112fab35112141a15cebcff0bbd4c, type: 3}
+  - {fileID: 936823387312649845, guid: 3b41b327a2091c941912a7771bf1ee3f, type: 3}
+  - {fileID: 936823387312649845, guid: 5b17e0bf0511da04fa4dd9a186e4579a, type: 3}
+--- !u!114 &952876681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952876677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1389105619
 GameObject:
   m_ObjectHideFlags: 0

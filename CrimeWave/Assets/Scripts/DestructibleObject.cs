@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class DestructibleObject : MonoBehaviourPun
 {
@@ -7,18 +8,20 @@ public class DestructibleObject : MonoBehaviourPun
     [SerializeField] private float lootDropAmount;
 
     private CurrencyHandler ch;
+    private Slider healthBar;
     private float health;
 
     void Start()
     {
         ch = GetComponent<CurrencyHandler>();
+        healthBar = GetComponentInChildren<Slider>();
 
         health = maxHealth;
+        healthBar.maxValue = maxHealth;
+        healthBar.value = health;
+        healthBar.gameObject.SetActive(false);
+
         ch.money = lootDropAmount;
-    }
-    public void AddHealth(float amount)
-    {
-        health += amount;
     }
 
     public void RemoveHealth(float amount)
@@ -36,8 +39,10 @@ public class DestructibleObject : MonoBehaviourPun
     public void RemoveHealthRPC(float amount)
     {
         health -= amount;
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a * 0.75f);
+        healthBar.value = health;
+
+        if (health < maxHealth)
+            healthBar.gameObject.SetActive(true);
 
         if (health <= 0)
         {

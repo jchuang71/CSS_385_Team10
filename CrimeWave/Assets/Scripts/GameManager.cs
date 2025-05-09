@@ -7,8 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+
     public GameObject playerPrefab; // Reference in inspector
     private GameObject myPlayer;
+    private static int currentPlayers;
 
     void Start()
     {
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         try
         {
             myPlayer = PhotonNetwork.Instantiate(prefabName, position, Quaternion.identity);
+            photonView.RPC("AddPlayerRPC", RpcTarget.All);
 
             Debug.Log("Player instantiated successfully: " + prefabName); // ADDED: Success confirmation
         }
@@ -64,6 +67,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.LogError("Error instantiating player: " + e.Message); // ADDED: Error handling
             Debug.LogException(e); // ADDED: Full exception details
+        }
+    }
+
+    [PunRPC]
+    public void AddPlayerRPC()
+    {
+        currentPlayers++;
+
+        if(currentPlayers == PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            GetComponent<DestructibleObjectManager>().StartSpawning();
         }
     }
 
