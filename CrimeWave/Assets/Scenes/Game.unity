@@ -763,9 +763,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destructibleObjects:
-  - {fileID: 11400000, guid: 42ea489e1b9f2404e90779673bc9faa0, type: 2}
-  - {fileID: 11400000, guid: f27f64f75a63e9a4ba2076a703524042, type: 2}
-  destructibleObject: {fileID: 936823387312649845, guid: a6cb250e483eff745bd0c226f6698891, type: 3}
+  - {fileID: 936823387312649845, guid: 8bd5358a1eee18b44bbd10082d7403d1, type: 3}
+  - {fileID: 936823387312649845, guid: a6cb250e483eff745bd0c226f6698891, type: 3}
 --- !u!1 &1389105619
 GameObject:
   m_ObjectHideFlags: 0

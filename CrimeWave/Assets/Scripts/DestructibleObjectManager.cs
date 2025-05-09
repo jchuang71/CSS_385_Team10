@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class DestructibleObjectManager : MonoBehaviourPunCallbacks
 {
-    public List<DestructibleObject> destructibleObjects = new List<DestructibleObject>();
+    public List<GameObject> destructibleObjects = new List<GameObject>();
     
-    [SerializeField] private GameObject destructibleObject;
     private float spawnInterval = 5.0f;
     private float xBounds;
     private float yBounds;
@@ -30,16 +29,15 @@ public class DestructibleObjectManager : MonoBehaviourPunCallbacks
         // may spawn objects on top of each other, we could also just manually set up the map instead of spawning
         while (isSpawning)
         {
-            GameObject obj = PhotonNetwork.InstantiateRoomObject("Prefabs/" + destructibleObject.name, GenerateSpawnPos(), Quaternion.identity);
-            obj.GetComponent<DestructibleObjectBehavior>().SetDestructibleType(GetRandomObject());
+            GameObject obj = PhotonNetwork.InstantiateRoomObject("Prefabs/DestructibleObjects/" + GetRandomObject().name, GenerateSpawnPos(), Quaternion.identity);
 
-            Debug.Log("Spawned new object of name: " + obj.GetComponent<DestructibleObjectBehavior>().destructibleObj.name);
+            Debug.Log("Spawned new object of name: " + obj.GetComponent<DestructibleObject>().name);
 
             yield return new WaitForSeconds(spawnInterval);
         }
     }
 
-    private DestructibleObject GetRandomObject()
+    private GameObject GetRandomObject()
     {
         return destructibleObjects[Random.Range(0, destructibleObjects.Count)];
     }
