@@ -13,12 +13,6 @@ public class DestructibleObject : MonoBehaviourPun
         health = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void AddHealth(float amount)
     {
         health += amount;
@@ -48,15 +42,4 @@ public class DestructibleObject : MonoBehaviourPun
             PhotonNetwork.Destroy(gameObject);
         }
     }
-
-/*
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<PlayerController>().AddMoney(20);
-            PhotonNetwork.Destroy(gameObject);
-        }
-    }
-    */
 }

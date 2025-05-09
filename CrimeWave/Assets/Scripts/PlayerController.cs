@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] private Camera cam; // Reference to the camera
     private UIManager uiManager;
 
+    private bool isDead = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
