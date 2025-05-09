@@ -50,6 +50,8 @@ MonoBehaviour:
   - RemoveHealthRPC
   - SetPlayerColor
   - ChangeHealthBy
+  - SetObjectTypeRPC
+  - SetDestructibleTypeRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviourPun
             // Only assign the UI if this is the local player
             if(photonView.IsMine)
             {
-                uiManager.SetMoneyText(otherMoney);  //Update health text
+                uiManager.SetMoneyText(ch.money);  // FIXED: update money ui text
             }
             // Destroy the money object after picking it up
             PhotonNetwork.Destroy(other.gameObject);

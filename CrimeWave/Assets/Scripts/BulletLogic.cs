@@ -88,7 +88,7 @@ public class BulletLogic : MonoBehaviourPun
             // Damage destructible objects
             if (hit.CompareTag("Destructible"))
             {
-                hit.GetComponent<DestructibleObject>().RemoveHealth(damage);
+                hit.GetComponent<DestructibleObjectBehavior>().RemoveHealth(damage);
             }
         }
         PhotonNetwork.Destroy(gameObject); // Destroy bullet
