@@ -35,20 +35,28 @@ public class CurrencyHandler : MonoBehaviourPun
         UpdateMoneyUI();
     }
 
+    // Call this when the player wants to generate loot (e.g., when destroying an object)
     public void GenerateLoot(float amount)
     {
-        if (amount <= 0f || amount > money)
+        if (photonView.IsMine)
         {
-            Debug.LogWarning("Invalid loot amount.");
-            return;
+            photonView.RPC(nameof(GenerateLootRPC), RpcTarget.MasterClient, amount); // Call the master client to spawn loot prefab
+            ChangeMoneyBy(-amount); // Local player loses money immediately
         }
+    }
 
-        // Pass loot amount directly in instantiation data (cleaner than RPC)
+    [PunRPC]
+    void GenerateLootRPC(float amount, PhotonMessageInfo info)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        // Pass loot amount via instantiationData
         object[] data = new object[] { amount };
         PhotonNetwork.InstantiateRoomObject("Prefabs/MoneyStack", transform.position, Quaternion.identity, 0, data);
 
-        ChangeMoneyBy(-amount);
+        Debug.Log($"MasterClient spawned loot ({amount}) at {transform.position} for player {info.Sender.ActorNumber}");
     }
+
 
     // Call this when picking up loot or gaining money
     public void ChangeMoneyBy(float amount)
@@ -70,5 +78,11 @@ public class CurrencyHandler : MonoBehaviourPun
             Debug.Log("Updating money UI: " + money);
             uiManager.SetMoneyText(money);
         }
+    }
+
+    [PunRPC]
+    public void AddMoney(float amount)
+    {
+        ChangeMoneyBy(amount);
     }
 }

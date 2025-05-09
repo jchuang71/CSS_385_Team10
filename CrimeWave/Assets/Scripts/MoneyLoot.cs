@@ -29,16 +29,13 @@ public class MoneyLoot : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (playerPhotonView != null)
         {
             Debug.Log("MasterClient found player with ID: " + playerViewID);
-            CurrencyHandler currencyHandler = playerPhotonView.GetComponent<CurrencyHandler>();
-            if (currencyHandler != null)
-            {
-                currencyHandler.ChangeMoneyBy(moneyAmount);
-                Debug.Log("Master added " + moneyAmount + " to player with ID " + playerViewID);
-            }
-            else
-            {
-                Debug.LogWarning("CurrencyHandler not found on player with ID " + playerViewID);
-            }
+
+            // Instruct player to add money via RPC (this ensures photonView.IsMine is true)
+            playerPhotonView.RPC("AddMoney", playerPhotonView.Owner, moneyAmount);
+        }
+        else
+        {
+            Debug.LogWarning("Player photonView not found for ID: " + playerViewID);
         }
 
         // MasterClient destroys the loot
