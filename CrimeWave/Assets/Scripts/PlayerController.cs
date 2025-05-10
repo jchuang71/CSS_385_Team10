@@ -225,7 +225,7 @@ public class PlayerController : MonoBehaviourPun
         {
             // Flicker between transparent and opaque
             alpha = Mathf.PingPong(Time.time * 5f, 0.5f) + 0.5f; // value between 0.5 and 1
-            photonView.RPC("SetSpriteAlpha", RpcTarget.Others, alpha);
+            photonView.RPC("SetSpriteAlpha", RpcTarget.All, alpha);
         }
         // player shouldnt be immune
         else
