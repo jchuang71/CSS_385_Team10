@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviourPun
     [PunRPC]
     public void ChangeHealthBy(float amount)
     {
-        if (isDead) return; // Ignore if already dead
+        if (health <= 0) return; // Ignore if already dead
         
         health += amount;
         if(health <= 0)
