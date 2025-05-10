@@ -1,7 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using Photon.Realtime;
 
 public class RoomItem : MonoBehaviour
 {

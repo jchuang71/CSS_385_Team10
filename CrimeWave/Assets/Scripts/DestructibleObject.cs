@@ -1,27 +1,22 @@
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class DestructibleObject : MonoBehaviourPun
 {
-    public float maxHealth = 20f;
-    public float health;
-    public CurrencyHandler ch;
+    [SerializeField] private float maxHealth;
+    [SerializeField] private float lootDropAmount;
+    private Slider healthBar;
+    private float health;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        healthBar = GetComponentInChildren<Slider>();
+
         health = maxHealth;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void AddHealth(float amount)
-    {
-        health += amount;
+        healthBar.maxValue = maxHealth;
+        healthBar.value = health;
+        healthBar.gameObject.SetActive(false);
     }
 
     public void RemoveHealth(float amount)
@@ -31,9 +26,10 @@ public class DestructibleObject : MonoBehaviourPun
 
     public void DropLoot()
     {
-        // Generates spawned money in a range of 20% below or above the designated amount
-        int spawnedMoney = (int)UnityEngine.Random.Range(ch.money * 0.8f, ch.money * 1.2f);
-        ch.GenerateLoot(spawnedMoney);
+        // Pass the loot amount via instantiationData
+        object[] instantiationData = new object[] { lootDropAmount };
+        PhotonNetwork.InstantiateRoomObject("Prefabs/MoneyStack", transform.position, Quaternion.identity, 0, instantiationData);
+        
         Debug.Log("Dropping loot from " + gameObject.name);
     }
 
@@ -41,24 +37,18 @@ public class DestructibleObject : MonoBehaviourPun
     public void RemoveHealthRPC(float amount)
     {
         health -= amount;
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, sr.color.a * 0.75f);
+        healthBar.value = health;
+
+        if (health < maxHealth)
+            healthBar.gameObject.SetActive(true);
 
         if (health <= 0)
         {
             DropLoot(); // Call loot drop function
-            PhotonNetwork.Destroy(gameObject);
+            if(photonView.IsMine)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
     }
-
-/*
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<PlayerController>().AddMoney(20);
-            PhotonNetwork.Destroy(gameObject);
-        }
-    }
-    */
 }

@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Destructible
   - Money
-  - Wall
   layers:
   - Default
   - TransparentFX

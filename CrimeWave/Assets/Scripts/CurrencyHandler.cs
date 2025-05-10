@@ -1,37 +1,88 @@
 using Photon.Pun;
 using UnityEngine;
+using System.Collections;
 
 public class CurrencyHandler : MonoBehaviourPun
 {
     public float money;
     private GameObject moneyPrefab;
+    [SerializeField] public UIManager uiManager;
 
-    public void Start()
+    private void Awake()
     {
         moneyPrefab = Resources.Load<GameObject>("Prefabs/MoneyStack");
     }
 
-    public void GiveMoney(int photonId, float amount)
+    // Called when Photon instantiates this player object
+    private void Start()
     {
-        photonView.RPC("AddMoney", RpcTarget.All, new object[] { photonId, amount });
+        // Only initialize UI for the local player
+        if (photonView.IsMine)
+        {
+            StartCoroutine(WaitForUIManager());
+        }
     }
 
+    private IEnumerator WaitForUIManager()
+    {
+        // Wait until UIManager is assigned before proceeding
+        while (uiManager == null)
+        {
+            uiManager = UIManager.UIManagerInstance;
+            yield return null; // Wait for the next frame
+        }
+        Debug.Log("UIManager assigned successfully.");
+        UpdateMoneyUI();
+    }
+
+    // Call this when the player wants to generate loot (e.g., when destroying an object)
     public void GenerateLoot(float amount)
     {
-        //Instantiate the money prefab at the loot's position
-        GameObject moneyInstance = PhotonNetwork.InstantiateRoomObject("Prefabs/" + moneyPrefab.name, transform.position, Quaternion.identity);
-        // Set the money amount designated by amount to the prefab using GiveMoney()
-        GiveMoney(moneyInstance.GetComponent<PhotonView>().ViewID, amount);
+        if (photonView.IsMine)
+        {
+            photonView.RPC(nameof(GenerateLootRPC), RpcTarget.MasterClient, amount); // Call the master client to spawn loot prefab
+            ChangeMoneyBy(-amount); // Local player loses money immediately
+        }
     }
 
     [PunRPC]
-    public void AddMoney(int photonId, float amount)
+    void GenerateLootRPC(float amount, PhotonMessageInfo info)
     {
-        // other object
-        PhotonView.Find(photonId).GetComponent<CurrencyHandler>().money += amount;
+        if (!PhotonNetwork.IsMasterClient) return;
 
-        // this object
-        PhotonView.Find(photonView.ViewID).GetComponent<CurrencyHandler>().money -= amount;
+        // Pass loot amount via instantiationData
+        object[] data = new object[] { amount };
+        PhotonNetwork.InstantiateRoomObject("Prefabs/MoneyStack", transform.position, Quaternion.identity, 0, data);
+
+        Debug.Log($"MasterClient spawned loot ({amount}) at {transform.position} for player {info.Sender.ActorNumber}");
     }
 
+
+    // Call this when picking up loot or gaining money
+    public void ChangeMoneyBy(float amount)
+    {
+        if (photonView.IsMine)
+        {
+            money += amount;
+            Debug.Log("Money changed by: " + amount + " New total: " + money);
+            UpdateMoneyUI();
+        }
+    }
+
+    private void UpdateMoneyUI()
+    {
+        Debug.Log("photonView.IsMine: " + photonView.IsMine);
+        Debug.Log("uiManager is null? " + (uiManager == null));
+        if (photonView.IsMine && uiManager != null)
+        {
+            Debug.Log("Updating money UI: " + money);
+            uiManager.SetMoneyText(money);
+        }
+    }
+
+    [PunRPC]
+    public void AddMoney(float amount)
+    {
+        ChangeMoneyBy(amount);
+    }
 }

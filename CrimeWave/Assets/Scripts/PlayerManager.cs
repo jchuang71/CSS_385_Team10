@@ -1,6 +1,4 @@
-using ExitGames.Client.Photon;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
@@ -9,9 +7,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        // Assign the local player instance only for the local player
         if (photonView.IsMine)
         {
-            PlayerManager.localPlayerInstance = gameObject;
+            if (localPlayerInstance != null)
+            {
+                Debug.LogWarning("LocalPlayerInstance is being reassigned. This could be an error.");
+            }
+            localPlayerInstance = gameObject;
         }
 
         DontDestroyOnLoad(gameObject);
