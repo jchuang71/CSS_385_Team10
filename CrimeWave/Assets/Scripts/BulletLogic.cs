@@ -108,6 +108,11 @@ public class BulletLogic : MonoBehaviourPun
             BulletFinished(); // Call the BulletFinished function if it hits a destructible object
             hasHit = true; // mark as hit so we don't double hit
         }
+        if (other.CompareTag("Wall"))
+        {
+            BulletFinished(); // Call the BulletFinished function if it hits a destructible object
+            hasHit = true; // mark as hit so we don't double hit
+        }
         // otherwise hit some other object and dont do anything
     }
 }
