@@ -214,21 +214,38 @@ public class PlayerController : MonoBehaviourPun
 
     private void UpdateImmunityVisual()
     {
-        Color color = sr.color;
+        float alpha;
 
         if (respawnImmunityTime < respawnImmunity)
         {
             // Flicker between transparent and opaque
-            float alpha = Mathf.PingPong(Time.time * 5f, 0.5f) + 0.5f; // value between 0.5 and 1
-            color.a = alpha;
+            alpha = Mathf.PingPong(Time.time * 5f, 0.5f) + 0.5f; // value between 0.5 and 1
         }
         else
         {
             // Fully opaque when not immune
-            color.a = 1f;
+            alpha = 1f;
         }
 
-        sr.color = color;
+        Color color = sr.color;
+        color.a = alpha;
+        sr.color = color; // Set the alpha value of the sprite renderer
+
+        if (photonView.IsMine)
+        {
+            photonView.RPC("SetSpriteAlpha", RpcTarget.Others, alpha);
+        }
+    }
+
+    [PunRPC]
+    private void SetSpriteAlpha(float alpha)
+    {
+        if (sr != null)
+        {
+            Color color = sr.color;
+            color.a = alpha;
+            sr.color = color;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
