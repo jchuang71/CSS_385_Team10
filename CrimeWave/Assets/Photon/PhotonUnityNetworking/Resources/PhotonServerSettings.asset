@@ -54,6 +54,11 @@ MonoBehaviour:
   - OnMoneyPickedUp
   - RequestPickup
   - GenerateLootRPC
+  - SetObjectTypeRPC
+  - SetDestructibleTypeRPC
+  - InitializeState
+  - AddPlayerRPC
+  - StartSpawningRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

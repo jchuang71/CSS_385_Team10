@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MoneyLoot : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
-    public float moneyAmount;
+    private float moneyAmount;
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {

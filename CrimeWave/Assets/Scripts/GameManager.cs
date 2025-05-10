@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+
     public GameObject playerPrefab; // Reference in inspector
     private GameObject myPlayer;
-    private int maxPlayers = 2; // Maximum number of players allowed in the game
+    private static int currentPlayers;
 
     void Start()
     {
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Attempting to create player");
 
-        int playerIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % maxPlayers;
+        int playerIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % 2;
         Debug.Log("Player index: " + playerIndex + " from ActorNumber: " + PhotonNetwork.LocalPlayer.ActorNumber);
 
         Vector3 position = new Vector3(-2 + playerIndex * 4, 0, 0);
@@ -49,12 +50,25 @@ public class GameManager : MonoBehaviourPunCallbacks
         try
         {
             myPlayer = PhotonNetwork.Instantiate(prefabName, position, Quaternion.identity);
-            Debug.Log("Player instantiated successfully: " + prefabName);
+            photonView.RPC("AddPlayerRPC", RpcTarget.All);
+
+            Debug.Log("Player instantiated successfully: " + prefabName); // ADDED: Success confirmation
         }
         catch (System.Exception e)
         {
             Debug.LogError("Error instantiating player: " + e.Message);
             Debug.LogException(e);
+        }
+    }
+
+    [PunRPC]
+    public void AddPlayerRPC()
+    {
+        currentPlayers++;
+
+        if(currentPlayers == PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            GetComponent<DestructibleObjectManager>().StartSpawning();
         }
     }
 

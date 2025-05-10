@@ -1,16 +1,9 @@
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
-using ExitGames.Client.Photon;
-using System.Collections;
-using Unity.Collections;
-using Button = UnityEngine.UI.Button;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
