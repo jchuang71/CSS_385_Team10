@@ -4,24 +4,26 @@ using Photon.Pun;
 
 public class PlayerController : MonoBehaviourPun
 {
-    public float moveSpeed = 5f;
-    private bool isWalking = false; // Flag to check if the player is walking for sprite animation
     private Rigidbody2D rb;
-    private float maxHealth = 100f;
-    private float health;
+    private SpriteRenderer sr;
+    private CurrencyHandler ch;
+    private UIManager uiManager;
+    private Camera cam; // Reference to the camera
     public AudioSource soundEffects; // Reference to the audio source for player sounds
     public AudioClip collectMoney; // Reference to the audio clip for collecting money
+    public float moveSpeed = 5f;
+    private bool isWalking = false; // Flag to check if the player is walking for sprite animation
+    private float maxHealth = 100f;
+    private float health;
     private int moneyDroppedOnDeath = 10000; // money the player will drop as loot
-    public CurrencyHandler ch; // Reference to the CurrencyHandler script
-    [SerializeField] private Camera cam; // Reference to the camera
-    private UIManager uiManager;
-    [SerializeField] private float respawnDelay = 3f; // Delay before respawn
+    private float respawnDelay = 3f; // Delay before respawn
     private float respawnImmunityTime = 0f; // Current time since last immunity
-    [SerializeField] private float respawnImmunity = 5f; // Delay before immunity after respawn
+    private float respawnImmunity = 5f; // Delay before immunity after respawn
     private bool isDead = false;
 
     private void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         ch = GetComponent<CurrencyHandler>(); // Get the CurrencyHandler component attached to the player
 
@@ -62,6 +64,7 @@ public class PlayerController : MonoBehaviourPun
             MovePlayer();
             FaceCursor(); // Call the FaceCursor function to face the cursor
             respawnImmunityTime += Time.deltaTime;
+            UpdateImmunityVisual();
         }
     }
 
@@ -207,6 +210,25 @@ public class PlayerController : MonoBehaviourPun
 
         // Reset immunity time
         respawnImmunityTime = 0f; // Reset immunity time
+    }
+
+    private void UpdateImmunityVisual()
+    {
+        Color color = sr.color;
+
+        if (respawnImmunityTime < respawnImmunity)
+        {
+            // Flicker between transparent and opaque
+            float alpha = Mathf.PingPong(Time.time * 5f, 0.5f) + 0.5f; // value between 0.5 and 1
+            color.a = alpha;
+        }
+        else
+        {
+            // Fully opaque when not immune
+            color.a = 1f;
+        }
+
+        sr.color = color;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
