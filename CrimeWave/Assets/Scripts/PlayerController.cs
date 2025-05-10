@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviourPun
 {
@@ -17,8 +18,9 @@ public class PlayerController : MonoBehaviourPun
     private float health;
     private int moneyDroppedOnDeath = 10000; // money the player will drop as loot
     private float respawnDelay = 3f; // Delay before respawn
-    private float respawnImmunityTime = 0f; // Current time since last immunity
-    private float respawnImmunity = 5f; // Delay before immunity after respawn
+    private float respawnImmunityCurrentTime = 0f; // Current time since last immunity
+    private float respawnImmunityRequiredTime = 5f; // Delay before immunity after respawn
+    private bool isImmune = false; // Flag to check if the player is iummune
     private bool isDead = false;
 
     private void Start()
@@ -32,7 +34,8 @@ public class PlayerController : MonoBehaviourPun
         StartCoroutine(AssignCameraWhenReady()); // Start the coroutine to assign the camera when it's ready
         uiManager = UIManager.UIManagerInstance; // Get the UIManager instance
 
-        respawnImmunityTime = 0f; // Initialize immunity time so that players are immune at the start
+        respawnImmunityCurrentTime = 0f; // Initialize immunity time so that players are immune at the start
+        isImmune = true; // Set immune flag to true
     }
 
     void Update()
@@ -63,8 +66,7 @@ public class PlayerController : MonoBehaviourPun
         {
             MovePlayer();
             FaceCursor(); // Call the FaceCursor function to face the cursor
-            respawnImmunityTime += Time.deltaTime;
-            UpdateImmunityVisual();
+            UpdateImmunity(); // Call the UpdateImmunityVisual function to update immunity visual
         }
     }
 
@@ -139,7 +141,7 @@ public class PlayerController : MonoBehaviourPun
     public void ChangeHealthBy(float amount)
     {
         if (isDead) return; // Ignore if already dead
-        if (respawnImmunityTime < respawnImmunity) return; // Ignore if within immunity time
+        if (isImmune) return; // Ignore if within immunity time
 
         health += amount;
         if (health <= 0)
@@ -209,31 +211,35 @@ public class PlayerController : MonoBehaviourPun
         uiManager.SetHealthText(health);
 
         // Reset immunity time
-        respawnImmunityTime = 0f; // Reset immunity time
+        photonView.RPC("SetIsImmune", RpcTarget.All, true);
     }
 
-    private void UpdateImmunityVisual()
+    private void UpdateImmunity()
     {
+        respawnImmunityCurrentTime += Time.deltaTime;
         float alpha;
+        Color color = sr.color;
 
-        if (respawnImmunityTime < respawnImmunity)
+        // check if player should be immune
+        if(respawnImmunityCurrentTime < respawnImmunityRequiredTime)
         {
             // Flicker between transparent and opaque
             alpha = Mathf.PingPong(Time.time * 5f, 0.5f) + 0.5f; // value between 0.5 and 1
+            photonView.RPC("SetSpriteAlpha", RpcTarget.Others, alpha);
         }
+        // player shouldnt be immune
         else
         {
-            // Fully opaque when not immune
-            alpha = 1f;
-        }
-
-        Color color = sr.color;
-        color.a = alpha;
-        sr.color = color; // Set the alpha value of the sprite renderer
-
-        if (photonView.IsMine)
-        {
-            photonView.RPC("SetSpriteAlpha", RpcTarget.Others, alpha);
+            if(isImmune)
+            {
+                SetToImmune(false);
+                photonView.RPC("SetSpriteAlpha", RpcTarget.All, 1f);
+                return; // All immunty time has passed and flag toggled to correct state, exit the function
+            }
+            else
+            {
+                return; // All immunty time has passed and flag was already toggeled, exit the function
+            }
         }
     }
 
@@ -245,6 +251,19 @@ public class PlayerController : MonoBehaviourPun
             Color color = sr.color;
             color.a = alpha;
             sr.color = color;
+        }
+    }
+
+    private void SetToImmune(bool isImmune = true)
+    {
+        this.isImmune = isImmune; // Set the immune flag
+        if(isImmune)
+        {
+            respawnImmunityCurrentTime = 0f; // Reset immunity time
+        }
+        else
+        {
+            respawnImmunityCurrentTime = respawnImmunityRequiredTime; // Set immunity time to reached potentional
         }
     }
 

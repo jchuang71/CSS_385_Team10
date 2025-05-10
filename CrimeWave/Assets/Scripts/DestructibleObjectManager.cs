@@ -1,55 +1,33 @@
 using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DestructibleObjectManager : MonoBehaviourPunCallbacks
 {
-    public List<GameObject> destructibleObjects = new List<GameObject>();
+    public static DestructibleObjectManager Instance;
 
-    private float spawnInterval = 5.0f;
-    private float xBounds;
-    private float yBounds;
-
-    private bool isSpawning;
-
-    void Start()
+    private void Awake()
     {
-        // should be changed eventually according to map size
-        xBounds = 10.0f;
-        yBounds = 10.0f;
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
     }
 
-    public void StartSpawning()
+    // Call this to respawn an object
+    public void RespawnDestructible(string prefabName, Vector3 position, float delay)
     {
-        isSpawning = true;
-        StartCoroutine(SpawnCoroutine());
-    }
-
-    IEnumerator SpawnCoroutine()
-    {
-        // endlessly spawn new destructible objects
-        // may spawn objects on top of each other, we could also just manually set up the map instead of spawning
-        while (isSpawning)
+        if (PhotonNetwork.IsMasterClient)
         {
-            GameObject obj = PhotonNetwork.InstantiateRoomObject("Prefabs/DestructibleObjects/" + GetRandomObject().name, GenerateSpawnPos(), Quaternion.identity);
-
-            Debug.Log("Spawned new object of name: " + obj.GetComponent<DestructibleObject>().name);
-
-            yield return new WaitForSeconds(spawnInterval);
+            StartCoroutine(RespawnRoutine(prefabName, position, delay));
         }
     }
 
-    private GameObject GetRandomObject()
+    private IEnumerator RespawnRoutine(string prefabName, Vector3 position, float delay)
     {
-        return destructibleObjects[Random.Range(0, destructibleObjects.Count)];
-    }
+        yield return new WaitForSeconds(delay);
 
-    private Vector2 GenerateSpawnPos()
-    {
-        float xPos = Random.Range(-xBounds, xBounds);
-        float yPos = Random.Range(-yBounds, yBounds);
-
-        return new Vector2(xPos, yPos);
+        PhotonNetwork.InstantiateRoomObject("Prefabs/DestructibleObjects/" + prefabName, position, Quaternion.identity);
+        Debug.Log("Respawned destructible: " + prefabName);
     }
 }

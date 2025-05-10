@@ -1,18 +1,24 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using System.Collections;
 
 public class DestructibleObject : MonoBehaviourPun
 {
     [SerializeField] private float maxHealth;
     [SerializeField] private float lootDropAmount;
+    [SerializeField] private float respawnDelay;
+    [SerializeField] private string prefabName;
     private Slider healthBar;
     private float health;
 
-    void Start()
+    void Awake()
     {
         healthBar = GetComponentInChildren<Slider>();
-
+    }
+    
+    void Start()
+    {
         health = maxHealth;
         healthBar.maxValue = maxHealth;
         healthBar.value = health;
@@ -45,8 +51,11 @@ public class DestructibleObject : MonoBehaviourPun
         if (health <= 0)
         {
             DropLoot(); // Call loot drop function
-            if(photonView.IsMine)
+
+            if (PhotonNetwork.IsMasterClient)
             {
+                // Call manager to respawn object after some time has passed
+                DestructibleObjectManager.Instance.RespawnDestructible(prefabName, transform.position, respawnDelay);
                 PhotonNetwork.Destroy(gameObject);
             }
         }

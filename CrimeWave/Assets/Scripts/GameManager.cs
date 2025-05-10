@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         try
         {
             myPlayer = PhotonNetwork.Instantiate(prefabName, position, Quaternion.identity);
-            photonView.RPC("AddPlayerRPC", RpcTarget.All);
 
             Debug.Log("Player instantiated successfully: " + prefabName); // ADDED: Success confirmation
         }
@@ -58,17 +57,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.LogError("Error instantiating player: " + e.Message);
             Debug.LogException(e);
-        }
-    }
-
-    [PunRPC]
-    public void AddPlayerRPC()
-    {
-        currentPlayers++;
-
-        if(currentPlayers == PhotonNetwork.CurrentRoom.PlayerCount)
-        {
-            GetComponent<DestructibleObjectManager>().StartSpawning();
         }
     }
 
