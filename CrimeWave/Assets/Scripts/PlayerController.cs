@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviourPun
         uiManager = UIManager.UIManagerInstance; // Get the UIManager instance
 
         respawnImmunityCurrentTime = 0f; // Initialize immunity time so that players are immune at the start
-        isImmune = true; // Set immune flag to true
+        photonView.RPC("SetIsImmune", RpcTarget.All, true); // Set the immune flag to true for all players
     }
 
     void Update()
@@ -232,7 +232,7 @@ public class PlayerController : MonoBehaviourPun
         {
             if(isImmune)
             {
-                SetToImmune(false);
+                photonView.RPC("SetIsImmune", RpcTarget.All, false);
                 photonView.RPC("SetSpriteAlpha", RpcTarget.All, 1f);
                 return; // All immunty time has passed and flag toggled to correct state, exit the function
             }
@@ -254,7 +254,8 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
-    private void SetToImmune(bool isImmune = true)
+    [PunRPC]
+    private void SetIsImmune(bool isImmune = true)
     {
         this.isImmune = isImmune; // Set the immune flag
         if(isImmune)
