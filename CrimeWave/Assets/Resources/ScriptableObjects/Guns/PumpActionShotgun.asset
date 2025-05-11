@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b3c335f536d1a04e9edb18536a449f1, type: 3}
-  m_Name: Pistol
+  m_Name: PumpActionShotgun
   m_EditorClassIdentifier: 
-  gunName: Handgun
-  gunDescription: Starting gun
-  gunSelectorIndex: 0
-  fireRate: 3
+  gunName: Pump Action Shotgun
+  gunDescription: longer range and tighter spread
+  gunSelectorIndex: 3
+  fireRate: 2
   damage: 5
-  range: 10
+  range: 7
   bulletSpeed: 20
   bulletSplashDamageRange: 0.5
-  bulletsPerShot: 1
-  bulletSpread: 0
-  reloadTime: 2
-  magazineSize: 9
-  gunSprite: {fileID: -4854829337826818713, guid: 0b6b4ce7c3836de438dcd715b49a9c6f, type: 3}
+  bulletsPerShot: 5
+  bulletSpread: 20
+  reloadTime: 5
+  magazineSize: 7
+  gunSprite: {fileID: -9060079612990151235, guid: 716954e8b8eafdf4f90abc6b3d8378d7, type: 3}
   bulletPrefabPath: Prefabs/Bullet

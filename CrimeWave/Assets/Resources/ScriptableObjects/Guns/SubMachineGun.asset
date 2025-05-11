@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b3c335f536d1a04e9edb18536a449f1, type: 3}
-  m_Name: MachineGun
+  m_Name: SubMachineGun
   m_EditorClassIdentifier: 
-  gunName: Machine Gun
-  gunDescription: fast fire rate
-  gunSelectorIndex: 1
+  gunName: SMG
+  gunDescription: Very high rate of fire and movement, low per-bullet damage, accuracy
+    and range
+  gunSelectorIndex: 2
   fireRate: 10
-  damage: 5
-  range: 10
+  damage: 3
+  range: 7
   bulletSpeed: 20
   bulletSplashDamageRange: 0.5
   bulletsPerShot: 1
-  bulletSpread: 0
-  reloadTime: 5
+  bulletSpread: 7
+  reloadTime: 3
   magazineSize: 30
-  gunSprite: {fileID: 1585974835397443309, guid: 46b222db54584f3478e5ad3ba1a874ad, type: 3}
+  gunSprite: {fileID: -4753859010053906965, guid: 8660a5b6fb72ad64195ab3ad5c459d7c, type: 3}
   bulletPrefabPath: Prefabs/Bullet
