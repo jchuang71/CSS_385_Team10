@@ -17,4 +17,5 @@ public class Gun : ScriptableObject
     [SerializeField] public int magazineSize; // Number of bullets in the magazine
     [SerializeField] public Sprite gunSprite; // Sprite representing the gun
     [SerializeField] public string bulletPrefabPath; // Prefab of the bullet to be instantiated when firing    
+    [SerializeField] public AudioClip reloadSound; // Sound played when reloading
 }

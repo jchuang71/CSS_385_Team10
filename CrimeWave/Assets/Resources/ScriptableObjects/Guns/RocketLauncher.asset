@@ -22,7 +22,14 @@ MonoBehaviour:
   bulletSplashDamageRange: 5
   bulletsPerShot: 1
   bulletSpread: 0
+<<<<<<< HEAD:CrimeWave/Assets/Resources/ScriptableObjects/Guns/RocketLauncher.asset
   reloadTime: 5
   magazineSize: 1
   gunSprite: {fileID: 2776169872731505672, guid: 08fe8fada44bab4488f13109536c6345, type: 3}
+=======
+  gunSprite: {fileID: -7227783451421195894, guid: 6fb98ba10f689d34e81d2ff23eab533a, type: 3}
+>>>>>>> uri-reload:CrimeWave/Assets/Resources/ScriptableObjects/Guns/Bazooka.asset
   bulletPrefabPath: Prefabs/Bullet
+  magazineSize: 1
+  reloadTime: 7
+  reloadSound: {fileID: 8300000, guid: 65b0b4d0fef8c094eacf7480996150f6, type: 3}

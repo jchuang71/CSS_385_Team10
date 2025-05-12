@@ -22,7 +22,8 @@ MonoBehaviour:
   bulletSplashDamageRange: 0.5
   bulletsPerShot: 1
   bulletSpread: 0
-  reloadTime: 2
-  magazineSize: 9
   gunSprite: {fileID: -4854829337826818713, guid: 0b6b4ce7c3836de438dcd715b49a9c6f, type: 3}
   bulletPrefabPath: Prefabs/Bullet
+  magazineSize: 9
+  reloadTime: 1
+  reloadSound: {fileID: 8300000, guid: 9afe530f7af310b449b3552235d5518d, type: 3}
