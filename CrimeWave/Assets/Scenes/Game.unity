@@ -387,6 +387,14 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 196873394289395898, guid: e3eb2f5d65bb36c478dcff5ba021b9be, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 196873394289395898, guid: e3eb2f5d65bb36c478dcff5ba021b9be, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 327099317907146433, guid: e3eb2f5d65bb36c478dcff5ba021b9be, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.75
@@ -2616,6 +2624,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 348143898125720974, guid: 4348a17623114f941bb299e08cce4edb, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 348143898125720974, guid: 4348a17623114f941bb299e08cce4edb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 936823387312649845, guid: 4348a17623114f941bb299e08cce4edb, type: 3}
       propertyPath: m_Name
       value: Car (1)
@@ -2680,6 +2696,14 @@ PrefabInstance:
     - target: {fileID: 936823387312649845, guid: 978fe1be5df643e42b590f693287844f, type: 3}
       propertyPath: m_Name
       value: Bench
+      objectReference: {fileID: 0}
+    - target: {fileID: 6238194852989266783, guid: 978fe1be5df643e42b590f693287844f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6238194852989266783, guid: 978fe1be5df643e42b590f693287844f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2953,6 +2977,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 348143898125720974, guid: 4348a17623114f941bb299e08cce4edb, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 348143898125720974, guid: 4348a17623114f941bb299e08cce4edb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 936823387312649845, guid: 4348a17623114f941bb299e08cce4edb, type: 3}
       propertyPath: m_Name
       value: Car (2)
@@ -3162,6 +3194,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 327099317907146433, guid: 4348a17623114f941bb299e08cce4edb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 348143898125720974, guid: 4348a17623114f941bb299e08cce4edb, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 348143898125720974, guid: 4348a17623114f941bb299e08cce4edb, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 936823387312649845, guid: 4348a17623114f941bb299e08cce4edb, type: 3}
@@ -3834,6 +3874,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bench (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6238194852989266783, guid: 978fe1be5df643e42b590f693287844f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6238194852989266783, guid: 978fe1be5df643e42b590f693287844f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4128,7 +4176,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.48104307, g: 0.6388345, b: 0.8867924, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

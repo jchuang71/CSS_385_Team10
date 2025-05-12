@@ -178,8 +178,10 @@ public class PlayerController : MonoBehaviourPun
         // Call death on ALL clients
         photonView.RPC("SetAliveState", RpcTarget.All, false);
 
+        // drops current money, instead of flat 10,000
+        // maxmium dropped can only be up to player's money or 10,000, whichever is lower
         // Call loot drop function
-        ch.GenerateLoot(moneyDroppedOnDeath);
+        ch.GenerateLoot(Mathf.Clamp((int)ch.money, 0, moneyDroppedOnDeath));
         Debug.Log("Loot dropped: " + moneyDroppedOnDeath);
 
         // Only the owner starts respawn logic
