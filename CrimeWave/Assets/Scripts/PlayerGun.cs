@@ -13,7 +13,6 @@ public class PlayerGun : MonoBehaviourPun
     public AudioSource gunSounds; // Reference to the gun's audio source
     public AudioClip gunshot;
     private UIManager uiManager;
-
     private Dictionary<Gun, int> currentAmmo = new Dictionary<Gun, int>(); // Tracks current ammo for each gun
     private bool isReloading = false; // Flag to check if player is reloading
     private float reloadEndTime = 0f; // Time when current reload will finish
@@ -65,7 +64,7 @@ public class PlayerGun : MonoBehaviourPun
             }
 
             // Hide reloading indicator for all players
-            photonView.RPC("PlayReloadAnimation", RpcTarget.All, false);
+            //photonView.RPC("PlayReloadAnimation", RpcTarget.All, false);
 
             // Update UI
             UpdateAmmoUI();
@@ -134,7 +133,7 @@ public class PlayerGun : MonoBehaviourPun
         }
 
         // Show reloading indicator for all players in the network
-        photonView.RPC("PlayReloadAnimation", RpcTarget.All, true);
+        //photonView.RPC("PlayReloadAnimation", RpcTarget.All, true);
 
     }
 
@@ -151,7 +150,7 @@ public class PlayerGun : MonoBehaviourPun
         }
 
         // Hide reloading indicator for all players
-        photonView.RPC("PlayReloadAnimation", RpcTarget.All, false);
+        //photonView.RPC("PlayReloadAnimation", RpcTarget.All, false);
     }
 
 

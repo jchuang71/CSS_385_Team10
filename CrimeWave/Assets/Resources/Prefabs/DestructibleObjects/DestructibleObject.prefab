@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -4248280104975125750}
   - component: {fileID: 1553490378837457135}
   - component: {fileID: -8279582683001880191}
-  - component: {fileID: -5951321920318287562}
   m_Layer: 0
   m_Name: DestructibleObject
   m_TagString: Destructible
@@ -184,18 +183,6 @@ MonoBehaviour:
   lootDropAmount: 100
   respawnDelay: 5
   prefabName: DestructibleObject
---- !u!114 &-5951321920318287562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 936823387312649845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 745d8409ec5fb84498369a92103ee01b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5380175415788978705
 GameObject:
   m_ObjectHideFlags: 0

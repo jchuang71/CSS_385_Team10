@@ -23,14 +23,8 @@ MonoBehaviour:
   bulletSplashDamageRange: 0.5
   bulletsPerShot: 1
   bulletSpread: 0
-<<<<<<< HEAD:CrimeWave/Assets/Resources/ScriptableObjects/Guns/LightAssaultRifle.asset
   reloadTime: 5
   magazineSize: 30
   gunSprite: {fileID: -4607406281240748934, guid: 1739d69acad8f834694716d2b4248d9c, type: 3}
-=======
-  gunSprite: {fileID: 1585974835397443309, guid: 46b222db54584f3478e5ad3ba1a874ad, type: 3}
->>>>>>> uri-reload:CrimeWave/Assets/Resources/ScriptableObjects/Guns/MachineGun.asset
   bulletPrefabPath: Prefabs/Bullet
-  magazineSize: 30
-  reloadTime: 3
   reloadSound: {fileID: 8300000, guid: a2e9b88cff0d35947b7a38066fea972f, type: 3}

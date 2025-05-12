@@ -21,16 +21,9 @@ MonoBehaviour:
   bulletSpeed: 20
   bulletSplashDamageRange: 0.5
   bulletsPerShot: 5
-<<<<<<< HEAD:CrimeWave/Assets/Resources/ScriptableObjects/Guns/PumpActionShotgun.asset
-  bulletSpread: 20
+  bulletSpread: 10
   reloadTime: 5
   magazineSize: 7
   gunSprite: {fileID: -9060079612990151235, guid: 716954e8b8eafdf4f90abc6b3d8378d7, type: 3}
-=======
-  bulletSpread: 10
-  gunSprite: {fileID: -3780750109638705501, guid: f10c683d220b39d44b65e182e091efa9, type: 3}
->>>>>>> uri-reload:CrimeWave/Assets/Resources/ScriptableObjects/Guns/LongBarreledShotgun.asset
   bulletPrefabPath: Prefabs/Bullet
-  magazineSize: 2
-  reloadTime: 5
   reloadSound: {fileID: 8300000, guid: f6f7492e530dbc241a5bca4fb14e83d0, type: 3}
