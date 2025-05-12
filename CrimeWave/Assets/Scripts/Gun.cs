@@ -13,8 +13,9 @@ public class Gun : ScriptableObject
     [SerializeField] public float bulletSplashDamageRange = 0.5f; // Splash damage range of bullet on hit or impact
     [SerializeField] public float bulletsPerShot; // Number of bullets fired per shot
     [SerializeField] public float bulletSpread; // Spread of the bullets in degrees
-    [SerializeField] public float reloadTime; // Time taken to reload the gun in seconds
-    [SerializeField] public int magazineSize; // Number of bullets in the magazine
     [SerializeField] public Sprite gunSprite; // Sprite representing the gun
     [SerializeField] public string bulletPrefabPath; // Prefab of the bullet to be instantiated when firing    
+    [SerializeField] public int magazineSize; // Number of bullets in the magazine
+    [SerializeField] public float reloadTime; // Time taken to reload in seconds
+    [SerializeField] public AudioClip reloadSound; // Sound played when reloading
 }

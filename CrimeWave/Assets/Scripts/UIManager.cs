@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
     public TMP_Text healthText; // Reference to the health text UI element
     public TMP_Text moneyText; // Reference to the money text UI element
     public Image weaponSelectorImage; // Reference to the weapon selector image UI element
+    public TMP_Text ammoText; // Assign in inspector
+    public TMP_Text reloadingText;
 
     void Awake()
     {
@@ -35,6 +37,31 @@ public class UIManager : MonoBehaviour
     {
         
     }
+
+    public void SetAmmoText(int currentAmmo, int magazineSize)
+    {
+        if (ammoText != null)
+        {
+            ammoText.text = currentAmmo + " / " + magazineSize;
+        }
+        else
+        {
+            Debug.LogError("ammoText is not assigned in the inspector!");
+        }
+    }
+
+    public void SetReloadingTextVisible(bool isVisible)
+    {
+        if (reloadingText != null)
+        {
+            reloadingText.gameObject.SetActive(isVisible);
+        }
+        else
+        {
+            Debug.LogError("reloadingText is not assigned in UIManager!");
+        }
+    }
+
 
     public void SetHealthText(float health)
     {
