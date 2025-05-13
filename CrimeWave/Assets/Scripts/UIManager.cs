@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public Image weaponSelectorImage; // Reference to the weapon selector image UI element
     public TMP_Text ammoText; // Assign in inspector
     public TMP_Text reloadingText;
+    public Slider milestoneBar;
 
     void Awake()
     {
@@ -29,6 +30,7 @@ public class UIManager : MonoBehaviour
         // Only assign the UI if this is the local player. Thus no need for photonView.
         healthText = GameObject.Find("HealthText").GetComponent<TMP_Text>();
         moneyText = GameObject.Find("MoneyText").GetComponent<TMP_Text>();
+        milestoneBar = GameObject.Find("MilestoneBar").GetComponent<Slider>();
         weaponSelectorImage = GameObject.Find("WeaponSelected").GetComponent<Image>();
     }
 
@@ -97,5 +99,15 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("weaponSelectorImage is not assigned in the inspector!"); // Error message if weaponSelectorImage is not assigned
         }
+    }
+
+    public void SetMilestoneMax(float amount)
+    {
+
+    }
+
+    public void SetMilestoneValue(float amount)
+    {
+        milestoneBar.value = amount;
     }
 }
