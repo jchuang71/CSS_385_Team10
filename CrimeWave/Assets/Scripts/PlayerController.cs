@@ -6,8 +6,6 @@ using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviourPun
 {
-    //public List<PerkEffect> activePerks = new List<PerkEffect>();
-
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private CurrencyHandler ch;
@@ -140,14 +138,6 @@ public class PlayerController : MonoBehaviourPun
             rb.MovePosition(rb.position + moveDirection.normalized * moveSpeed * Time.deltaTime); // Move in the combined direction
             isWalking = true; // Set walking flag to true
         }
-    }
-
-    public void ActivatePerk(PerkEffect effect)
-    {
-        effect.Apply(PlayerManager.localPlayerInstance);
-
-        if (!effect.isPermanent)
-            StartCoroutine(effect.Duration(PlayerManager.localPlayerInstance));
     }
 
     [PunRPC]

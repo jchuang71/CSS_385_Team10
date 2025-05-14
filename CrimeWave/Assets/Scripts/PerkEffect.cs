@@ -11,7 +11,7 @@ public abstract class PerkEffect : ScriptableObject
     public bool isPermanent;
 
     public abstract void Apply(GameObject player);
-    public abstract IEnumerator Duration(GameObject player);
+    public abstract IEnumerator Duration(GameObject player, GameObject perkTextInstance);
 }
 
 [Serializable]

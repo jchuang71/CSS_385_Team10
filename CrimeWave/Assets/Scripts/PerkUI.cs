@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class PerkUI : MonoBehaviour
 {
-    [SerializeField] private GameObject perkObject;
     public List<PerkEffectList> perkCategories = new List<PerkEffectList>(); // category of effects
 
+    [SerializeField] private GameObject perkObject;
     private List<GameObject> currentPerkRolls = new List<GameObject>();
     private GameObject selectPerkPanel;
 

@@ -13,12 +13,15 @@ public class MoveSpeedBuff : PerkEffect
         playerPV.RPC("ChangeSpeedBy", RpcTarget.All, amount);
     }
 
-    public override IEnumerator Duration(GameObject player)
+    public override IEnumerator Duration(GameObject player, GameObject perkTextInstance)
     {
         Debug.Log(perkName + " started countdown");
         yield return new WaitForSeconds(perkDuration);
         Debug.Log(perkName + " ran out of duration");
+
         PhotonView playerPV = player.GetComponent<PhotonView>();
         playerPV.RPC("ChangeSpeedBy", RpcTarget.All, -amount);
+
+        Destroy(perkTextInstance);
     }
 }

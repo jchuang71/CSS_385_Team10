@@ -14,12 +14,15 @@ public class HealthBuff : PerkEffect
         playerPV.RPC("ChangeHealthBy", RpcTarget.All, amount); // also heal the target, can be removed
     }
 
-    public override IEnumerator Duration(GameObject player)
+    public override IEnumerator Duration(GameObject player, GameObject perkTextInstance)
     {
         Debug.Log(perkName + " started countdown");
         yield return new WaitForSeconds(perkDuration);
         Debug.Log(perkName + " ran out of duration");
+
         PhotonView playerPV = player.GetComponent<PhotonView>();
         playerPV.RPC("ChangeMaxHealthBy", RpcTarget.All, -amount);
+
+        Destroy(perkTextInstance);
     }
 }

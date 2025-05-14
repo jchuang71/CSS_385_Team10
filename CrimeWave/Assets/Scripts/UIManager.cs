@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public TMP_Text ammoText; // Assign in inspector
     public TMP_Text reloadingText;
     public Slider milestoneBar;
+    public GameObject activeTempPerks;
 
     void Awake()
     {
