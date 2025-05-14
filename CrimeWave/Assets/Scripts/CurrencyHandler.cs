@@ -77,6 +77,7 @@ public class CurrencyHandler : MonoBehaviourPun
         {
             Debug.Log("Updating money UI: " + money);
             uiManager.SetMoneyText(money);
+            uiManager.SetMilestoneValue(money);
         }
     }
 

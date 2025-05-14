@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Unity.VisualScripting;
@@ -54,9 +55,11 @@ public class PlayerController : MonoBehaviourPun
             }
         }
 
-        // Update the health and money text UI to 0 decimal places
-        //healthText.text = "+ " + health.ToString("F0");
-        //moneyText.text = "$ " + ch.money.ToString("F0");
+        // PERKS TEST
+        if(Input.GetKeyDown(KeyCode.Y))
+        {
+            GameObject.Find("HUDCanvas").transform.Find("SelectPerk").GetComponent<PerkUI>().RollRandomPerks();
+        }
     }
 
     private void FixedUpdate()
@@ -138,6 +141,20 @@ public class PlayerController : MonoBehaviourPun
     }
 
     [PunRPC]
+    public void ChangeMaxHealthBy(float amount)
+    {
+        maxHealth += amount;
+
+        if (health > maxHealth)
+            health = maxHealth; // make sure health can't be higher than max health
+
+        if (photonView.IsMine)
+        {
+            uiManager.SetHealthText(health);  //Update health text
+        }
+    }
+
+    [PunRPC]
     public void ChangeHealthBy(float amount)
     {
         if (isDead) return; // Ignore if already dead
@@ -154,6 +171,12 @@ public class PlayerController : MonoBehaviourPun
         {
             uiManager.SetHealthText(health);  //Update health text
         }
+    }
+
+    [PunRPC]
+    public void ChangeSpeedBy(float amount)
+    {
+        moveSpeed += amount;
     }
 
     [PunRPC]
@@ -179,7 +202,7 @@ public class PlayerController : MonoBehaviourPun
         photonView.RPC("SetAliveState", RpcTarget.All, false);
 
         // Call loot drop function
-        ch.GenerateLoot(moneyDroppedOnDeath);
+        ch.GenerateLoot(Mathf.Clamp(ch.money, 0, moneyDroppedOnDeath));
         Debug.Log("Loot dropped: " + moneyDroppedOnDeath);
 
         // Only the owner starts respawn logic
