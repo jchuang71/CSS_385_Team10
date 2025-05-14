@@ -57,7 +57,8 @@ public class PlayerController : MonoBehaviourPun
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Y)) // test perks rolling
+        // PERKS TEST
+        if(Input.GetKeyDown(KeyCode.Y))
         {
             GameObject.Find("HUDCanvas").transform.Find("SelectPerk").GetComponent<PerkUI>().RollRandomPerks();
         }
@@ -141,7 +142,7 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
-    public void AddPerk(PerkEffect effect)
+    public void ActivatePerk(PerkEffect effect)
     {
         effect.Apply(PlayerManager.localPlayerInstance);
 
@@ -211,7 +212,7 @@ public class PlayerController : MonoBehaviourPun
         photonView.RPC("SetAliveState", RpcTarget.All, false);
 
         // Call loot drop function
-        ch.GenerateLoot(moneyDroppedOnDeath);
+        ch.GenerateLoot(Mathf.Clamp(ch.money, 0, moneyDroppedOnDeath));
         Debug.Log("Loot dropped: " + moneyDroppedOnDeath);
 
         // Only the owner starts respawn logic

@@ -29,7 +29,7 @@ public class Perk : MonoBehaviour
 
     public void ActivatePerk()
     {
-        PlayerManager.localPlayerInstance.GetComponent<PlayerController>().AddPerk(effect);
+        PlayerManager.localPlayerInstance.GetComponent<PlayerController>().ActivatePerk(effect); /// activate the perk on the player so duration script stays with player
         transform.parent.gameObject.SetActive(false);
     }
 }
