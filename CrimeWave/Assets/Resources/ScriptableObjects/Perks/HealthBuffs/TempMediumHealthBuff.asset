@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59de73c48676f3b4faf8dc6aa26071b6, type: 3}
   m_Name: TempMediumHealthBuff
   m_EditorClassIdentifier: 
-  perkName: Temporary Small Health Buff
+  perkName: Health
   perkDescription: Temporarily gain a bonus 100 health
   perkDuration: 30
   isPermanent: 0

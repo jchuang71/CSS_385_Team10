@@ -7,7 +7,7 @@ public class PerkUI : MonoBehaviour
     [SerializeField] private GameObject perkObject;
     public List<PerkEffectList> perkCategories = new List<PerkEffectList>(); // category of effects
 
-    private List<GameObject> currentPerkRolls;
+    private List<GameObject> currentPerkRolls = new List<GameObject>();
     private GameObject selectPerkPanel;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,10 +18,12 @@ public class PerkUI : MonoBehaviour
 
     public void RollRandomPerks()
     {
-        //selectPerkPanel.SetActive(true);
+        ClearPerkRolls();
+        selectPerkPanel.SetActive(true);
 
         for(int i = 0; i < 3; i++) // 3 perks per roll, in theory we can have more perks per roll, the only problem is the ui scaling
         {
+            Debug.Log("count aaa");
             GameObject newPerk = Instantiate(perkObject, transform.position, Quaternion.identity, selectPerkPanel.transform); // parent is selectperkpanel
             newPerk.GetComponentInChildren<Button>().onClick.AddListener(newPerk.GetComponent<Perk>().ActivatePerk); // add onclick listener 
 
@@ -33,11 +35,13 @@ public class PerkUI : MonoBehaviour
         }
     }
 
-    public void PerkSelected()
+    private void ClearPerkRolls()
     {
-        foreach(GameObject perk in currentPerkRolls)
+        foreach (GameObject perk in currentPerkRolls)
         {
             Destroy(perk);
         }
+
+        currentPerkRolls.Clear();
     }
 }

@@ -1,10 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviourPun
 {
+    //public List<PerkEffect> activePerks = new List<PerkEffect>();
+
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private CurrencyHandler ch;
@@ -138,6 +141,14 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
+    public void AddPerk(PerkEffect effect)
+    {
+        effect.Apply(PlayerManager.localPlayerInstance);
+
+        if (!effect.isPermanent)
+            StartCoroutine(effect.Duration(PlayerManager.localPlayerInstance));
+    }
+
     [PunRPC]
     public void ChangeMaxHealthBy(float amount)
     {
@@ -169,6 +180,12 @@ public class PlayerController : MonoBehaviourPun
         {
             uiManager.SetHealthText(health);  //Update health text
         }
+    }
+
+    [PunRPC]
+    public void ChangeSpeedBy(float amount)
+    {
+        moveSpeed += amount;
     }
 
     [PunRPC]

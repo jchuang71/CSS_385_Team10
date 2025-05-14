@@ -1,6 +1,6 @@
-using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Perk : MonoBehaviour
 {
@@ -9,31 +9,27 @@ public class Perk : MonoBehaviour
     private TextMeshProUGUI perkNameText;
     private TextMeshProUGUI perkDescriptionText;
     private TextMeshProUGUI perkDurationText;
+    private Button selectButton;
 
     void Start()
     {
         perkNameText = transform.Find("PerkName").GetComponent<TextMeshProUGUI>();
         perkDescriptionText = transform.Find("PerkDescription").GetComponent<TextMeshProUGUI>();
         perkDurationText = transform.Find("PerkDuration").GetComponent<TextMeshProUGUI>();
+        selectButton = transform.Find("PerkSelect").GetComponent<Button>();
 
         perkNameText.text = effect.perkName;
         perkDescriptionText.text = effect.perkDescription;
 
         if (!effect.isPermanent)
-            perkDurationText.text = "Duration: " + effect.perkDuration + " secs";
+            perkDurationText.text = effect.perkDuration + " secs";
         else
             perkDurationText.text = "Permanent";
     }
 
     public void ActivatePerk()
     {
-        effect.Apply(PlayerManager.localPlayerInstance);
-
-        if(!effect.isPermanent)
-            StartCoroutine(effect.StartDuration(PlayerManager.localPlayerInstance));
-
-        transform.parent.parent.GetComponent<PerkUI>().PerkSelected();
-        // disable SelectPerk game object
-        //transform.parent.parent.gameObject.SetActive(false);
+        PlayerManager.localPlayerInstance.GetComponent<PlayerController>().AddPerk(effect);
+        transform.parent.gameObject.SetActive(false);
     }
 }
