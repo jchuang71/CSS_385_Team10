@@ -54,9 +54,10 @@ public class PlayerController : MonoBehaviourPun
             }
         }
 
-        // Update the health and money text UI to 0 decimal places
-        //healthText.text = "+ " + health.ToString("F0");
-        //moneyText.text = "$ " + ch.money.ToString("F0");
+        if(Input.GetKeyDown(KeyCode.Y)) // test perks rolling
+        {
+            GameObject.Find("HUDCanvas").transform.Find("SelectPerk").GetComponent<PerkUI>().RollRandomPerks();
+        }
     }
 
     private void FixedUpdate()
@@ -134,6 +135,20 @@ public class PlayerController : MonoBehaviourPun
         {
             rb.MovePosition(rb.position + moveDirection.normalized * moveSpeed * Time.deltaTime); // Move in the combined direction
             isWalking = true; // Set walking flag to true
+        }
+    }
+
+    [PunRPC]
+    public void ChangeMaxHealthBy(float amount)
+    {
+        maxHealth += amount;
+
+        if (health > maxHealth)
+            health = maxHealth; // make sure health can't be higher than max health
+
+        if (photonView.IsMine)
+        {
+            uiManager.SetHealthText(health);  //Update health text
         }
     }
 

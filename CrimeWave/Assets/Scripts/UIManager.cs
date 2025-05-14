@@ -103,7 +103,7 @@ public class UIManager : MonoBehaviour
 
     public void SetMilestoneMax(float amount)
     {
-
+        milestoneBar.maxValue = amount;
     }
 
     public void SetMilestoneValue(float amount)
