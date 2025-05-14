@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 50d8714faea83804ca06eca5271c0559
+guid: aa121b025b092fa46b267ca4efa48bae
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4637937412519905047
-    second: handgun_0
+      213: -8386596100811539703
+    second: handgun 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,53 +96,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: handgun_0
+      name: handgun 1_0
       rect:
         serializedVersion: 2
-        x: 47
-        y: 173
-        width: 685
-        height: 443
+        x: 0
+        y: 0
+        width: 800
+        height: 800
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e8b1440f7cb2afb0800000000000000
-      internalID: -4637937412519905047
+      spriteID: 90bb378c743dc9b80800000000000000
+      internalID: -8386596100811539703
       vertices: []
       indices: 
       edges: []
@@ -151,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8285ae4c91cb6374fa46fc1b31641cac
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      handgun_0: -4637937412519905047
+      handgun 1_0: -8386596100811539703
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
