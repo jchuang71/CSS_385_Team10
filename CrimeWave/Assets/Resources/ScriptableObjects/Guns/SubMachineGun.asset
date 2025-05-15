@@ -27,3 +27,4 @@ MonoBehaviour:
   magazineSize: 30
   gunSprite: {fileID: -4753859010053906965, guid: 8660a5b6fb72ad64195ab3ad5c459d7c, type: 3}
   bulletPrefabPath: Prefabs/Bullet
+  reloadSound: {fileID: 8300000, guid: 2ac5bdc160173314ab441e97b73f95d9, type: 3}
