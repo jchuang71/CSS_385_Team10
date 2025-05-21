@@ -12,6 +12,9 @@ public class UIManager : MonoBehaviour
     public TMP_Text reloadingText;
     public Slider milestoneBar;
     public GameObject activeTempPerks;
+    public PerkUI perkUI;
+    public TMP_Text milestoneText;
+    public TMP_Text goalText;
 
     void Awake()
     {
@@ -110,5 +113,16 @@ public class UIManager : MonoBehaviour
     public void SetMilestoneValue(float amount)
     {
         milestoneBar.value = amount;
+    }
+
+    public void OnMilestoneValueChanged()
+    {
+        if(milestoneBar.value == milestoneBar.maxValue)
+        {
+            perkUI.RollRandomPerks();
+            milestoneBar.maxValue += 10000;
+            milestoneText.text = "Reach $" + milestoneBar.maxValue + " to get a perk!";
+            goalText.text = "$" + milestoneBar.maxValue;
+        }
     }
 }
