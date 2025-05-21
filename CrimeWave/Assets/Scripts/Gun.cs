@@ -9,6 +9,7 @@ public class Gun : ScriptableObject
     [SerializeField] public float fireRate; // Rate of fire in shots per second
     [SerializeField] public float damage; // Damage dealt by the gun
     [SerializeField] public float range; // Range of the gun in units
+    [SerializeField] public float percentangeSpeedDebuff = 0; // Percentage speed debuff applied to the player
     [SerializeField] public float bulletSpeed; // Speed of the bullet in units per second
     [SerializeField] public float bulletSplashDamageRange = 0.5f; // Splash damage range of bullet on hit or impact
     [SerializeField] public float bulletsPerShot = 1; // Number of bullets fired per shot

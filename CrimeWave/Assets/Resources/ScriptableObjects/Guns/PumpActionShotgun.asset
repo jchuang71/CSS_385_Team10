@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: Pump Action Shotgun
   gunDescription: longer range and tighter spread
-  gunSelectorIndex: 3
-  fireRate: 2
+  gunSelectorIndex: 4
+  fireRate: 1
   damage: 5
   range: 7
   bulletSpeed: 20

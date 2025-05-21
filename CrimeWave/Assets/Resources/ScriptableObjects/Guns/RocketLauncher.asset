@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: Rocket Launcher
   gunDescription: Best option against destructable objects
-  gunSelectorIndex: 4
+  gunSelectorIndex: 5
   fireRate: 1
-  damage: 10
+  damage: 70
   range: 10
+  percentangeSpeedDebuff: 50
   bulletSpeed: 10
   bulletSplashDamageRange: 5
   bulletsPerShot: 1

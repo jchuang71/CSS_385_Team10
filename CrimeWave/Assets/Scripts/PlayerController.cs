@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviourPun
     private Camera cam; // Reference to the camera
     public AudioSource soundEffects; // Reference to the audio source for player sounds
     public AudioClip collectMoney; // Reference to the audio clip for collecting money
-    public float moveSpeed = 5f;
+    public float moveSpeed = 5f; // Flat movement speed
+    private float moveSpeedMultiplier = 1f; // Multiplier for move speed
     private bool isWalking = false; // Flag to check if the player is walking for sprite animation
     private float maxHealth = 100f;
     private float health;
@@ -129,7 +130,7 @@ public class PlayerController : MonoBehaviourPun
         // Move the player based on the combined movement direction
         if (moveDirection != Vector2.zero)
         {
-            rb.MovePosition(rb.position + moveDirection.normalized * moveSpeed * Time.deltaTime); // Move in the combined direction
+            rb.MovePosition(rb.position + moveDirection.normalized * moveSpeed * moveSpeedMultiplier * Time.deltaTime); // Move in the combined direction
             isWalking = true; // Set walking flag to true
         }
     }
@@ -171,6 +172,12 @@ public class PlayerController : MonoBehaviourPun
     public void ChangeSpeedBy(float amount)
     {
         moveSpeed += amount;
+    }
+
+    [PunRPC]
+    public void ChangeSpeedMultiplierBy(float amount)
+    {
+        moveSpeedMultiplier += amount;
     }
 
     [PunRPC]

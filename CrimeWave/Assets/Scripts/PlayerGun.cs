@@ -220,6 +220,7 @@ public class PlayerGun : MonoBehaviourPun
 
     void SwitchGun(Gun newGun)
     {
+        PhotonView playerPV = gameObject.GetComponent<PhotonView>(); //old guns speed multiplier
 
         if (!photonView.IsMine) return;
 
@@ -234,9 +235,13 @@ public class PlayerGun : MonoBehaviourPun
             Debug.LogError("UIManager not found! Make sure it is in the scene."); // Error message if UIManager is not found
             return;
         }
+        float playerSpeedMultiplierChange = currentGun.percentangeSpeedDebuff / 100f;
+        playerPV.RPC("ChangeSpeedMultiplierBy", RpcTarget.All, playerSpeedMultiplierChange); //Remove old guns speed multiplier debuff
         Debug.Log(newGun.gunName + " is now selected.");
         currentGun = newGun; // Switch to the new gun
         uiManager.SetWeaponSelectorImage(currentGun.gunSprite); // Update the UI with the new gun icon
+        playerSpeedMultiplierChange = currentGun.percentangeSpeedDebuff / 100f;
+        playerPV.RPC("ChangeSpeedMultiplierBy", RpcTarget.All, -playerSpeedMultiplierChange);
         Debug.Log("Switched to " + currentGun.gunName);
 
         UpdateAmmoUI();
