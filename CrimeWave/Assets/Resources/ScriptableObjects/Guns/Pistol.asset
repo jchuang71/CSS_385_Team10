@@ -26,5 +26,6 @@ MonoBehaviour:
   reloadTime: 1
   magazineSize: 9
   gunSprite: {fileID: -8386596100811539703, guid: aa121b025b092fa46b267ca4efa48bae, type: 3}
-  bulletPrefabPath: Prefabs/Bullet
+  bulletSpritePath: Sprites/bullet
+  isScalableBulletSprite: 0
   reloadSound: {fileID: 8300000, guid: 9afe530f7af310b449b3552235d5518d, type: 3}

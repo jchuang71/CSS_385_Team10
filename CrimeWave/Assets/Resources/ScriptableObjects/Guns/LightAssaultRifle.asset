@@ -19,7 +19,7 @@ MonoBehaviour:
   fireRate: 5
   damage: 5
   range: 25
-  percentangeSpeedDebuff: 10
+  percentangeSpeedDebuff: 5
   bulletSpeed: 20
   bulletSplashDamageRange: 0.5
   bulletsPerShot: 1
@@ -27,5 +27,6 @@ MonoBehaviour:
   reloadTime: 5
   magazineSize: 30
   gunSprite: {fileID: -4607406281240748934, guid: 1739d69acad8f834694716d2b4248d9c, type: 3}
-  bulletPrefabPath: Prefabs/Bullet
+  bulletSpritePath: Sprites/bullet
+  isScalableBulletSprite: 0
   reloadSound: {fileID: 8300000, guid: a2e9b88cff0d35947b7a38066fea972f, type: 3}

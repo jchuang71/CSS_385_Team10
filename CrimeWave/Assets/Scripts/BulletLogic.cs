@@ -3,6 +3,7 @@ using Photon.Pun;
 
 public class BulletLogic : MonoBehaviourPun
 {
+    public SpriteRenderer sr; // Reference to the SpriteRenderer component
     public float speed; // Speed of the bullet
     public float range; // Range of the bullet
     public float damage; // Damage dealt by the bullet
@@ -14,10 +15,26 @@ public class BulletLogic : MonoBehaviourPun
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         if (photonView.InstantiationData != null && photonView.InstantiationData.Length > 0)
         {
             float spreadAngle = (float)photonView.InstantiationData[0];
+            float stretchFactor = (float)photonView.InstantiationData[1];
+            string spritePath = (string)photonView.InstantiationData[2];
+            bool isScalable = (bool)photonView.InstantiationData[3];
+
+            Sprite sprite = Resources.Load<Sprite>(spritePath);
+            if (sr != null && sprite != null)
+            {
+                sr.sprite = sprite;
+            }
+
             transform.Rotate(0, 0, spreadAngle); // Apply spread synced to all clients
+
+            if (isScalable)
+            { 
+                transform.localScale = new Vector3(transform.localScale.x, stretchFactor, transform.localScale.z); // Stretch bullet based on damage
+            }
         }
 
         if (photonView.IsMine)

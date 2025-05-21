@@ -8,6 +8,7 @@ public class PlayerGun : MonoBehaviourPun
     public List<Gun> guns; // List of available guns
     public Gun currentGun; // Reference to the Gun scriptable object
     Rigidbody2D rb;
+    string bulletPrefabPath = "Prefabs/Bullet"; // Path to the bullet prefab
     bool isHoldingFire = false; // Flag to check if the player is shooting
     float lastFireTime = 0f; // Time of the last shot fired
     public AudioSource gunSounds; // Reference to the gun's audio source
@@ -204,13 +205,14 @@ public class PlayerGun : MonoBehaviourPun
     {
         //creates a random spread for the bullet
         float spread = Random.Range(-currentGun.bulletSpread, currentGun.bulletSpread);
+        float stretchFactor = Mathf.Clamp(currentGun.damage / 7f, 1f, 5f); // Adjust denominator for scaling range
 
         GameObject bullet = PhotonNetwork.Instantiate(
-            currentGun.bulletPrefabPath, 
+            bulletPrefabPath, 
             transform.position, 
             Quaternion.Euler(0, 0, rb.rotation),
             0,
-            new object[] { spread } // Send spread angle as instantiation data
+            new object[] { spread, stretchFactor, currentGun.bulletSpritePath, currentGun.isScalableBulletSprite } // Send spread angle as instantiation data
         );
 
         bullet.GetComponent<BulletLogic>().SetBulletData(currentGun); // Set the bullet data from the gun

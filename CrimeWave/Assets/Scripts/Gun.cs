@@ -17,6 +17,7 @@ public class Gun : ScriptableObject
     [SerializeField] public float reloadTime; // Time taken to reload the gun in seconds
     [SerializeField] public int magazineSize; // Number of bullets in the magazine
     [SerializeField] public Sprite gunSprite; // Sprite representing the gun
-    [SerializeField] public string bulletPrefabPath; // Prefab of the bullet to be instantiated when firing    
+    [SerializeField] public string bulletSpritePath = "Sprites/bullet"; // Sprite of the bullet to be instantiated when firing
+    [SerializeField] public bool isScalableBulletSprite = false; // should bullet scale with damage
     [SerializeField] public AudioClip reloadSound; // Sound played when reloading
 }
