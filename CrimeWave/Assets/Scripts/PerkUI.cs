@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,24 @@ public class PerkUI : MonoBehaviour
         selectPerkPanel = transform.Find("SelectPerkPanel").gameObject;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) 
+        {
+            currentPerkRolls[0].GetComponent<Perk>().ActivatePerk();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            currentPerkRolls[1].GetComponent<Perk>().ActivatePerk();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3)) 
+        {
+            currentPerkRolls[2].GetComponent<Perk>().ActivatePerk();
+        }
+    }
+
     public void RollRandomPerks()
     {
         ClearPerkRolls();
@@ -26,6 +45,7 @@ public class PerkUI : MonoBehaviour
             Debug.Log("count aaa");
             GameObject newPerk = Instantiate(perkObject, transform.position, Quaternion.identity, selectPerkPanel.transform); // parent is selectperkpanel
             newPerk.GetComponentInChildren<Button>().onClick.AddListener(newPerk.GetComponent<Perk>().ActivatePerk); // add onclick listener 
+            newPerk.GetComponentInChildren<Button>().GetComponentInChildren<TMP_Text>().SetText("Press " + (i + 1));
 
             PerkEffectList randomCategory = perkCategories[Random.Range(0, perkCategories.Count)];
             PerkEffect randomEffectInCategory = randomCategory.list[Random.Range(0, randomCategory.list.Count)];

@@ -54,12 +54,6 @@ public class PlayerController : MonoBehaviourPun
 
             }
         }
-
-        // PERKS TEST
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-            GameObject.Find("HUDCanvas").transform.Find("SelectPerk").GetComponent<PerkUI>().RollRandomPerks();
-        }
     }
 
     private void FixedUpdate()
