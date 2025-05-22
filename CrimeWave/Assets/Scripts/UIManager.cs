@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour
     public GameObject activeTempPerks;
     public PerkUI perkUI;
     public TMP_Text milestoneText;
-    public TMP_Text goalText;
 
     void Awake()
     {
@@ -117,12 +116,13 @@ public class UIManager : MonoBehaviour
 
     public void OnMilestoneValueChanged()
     {
-        if(milestoneBar.value == milestoneBar.maxValue)
+        if (milestoneBar.value >= milestoneBar.maxValue)
         {
-            perkUI.RollRandomPerks();
-            milestoneBar.maxValue += 10000;
-            milestoneText.text = "Reach $" + milestoneBar.maxValue + " to get a perk!";
-            goalText.text = "$" + milestoneBar.maxValue;
+            milestoneText.text = "Get to the airport safely!";
+        }
+        else
+        {
+            milestoneText.text = "Reach $" + milestoneBar.maxValue + " and get to the airport!";
         }
     }
 }
