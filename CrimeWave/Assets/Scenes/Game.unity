@@ -2701,11 +2701,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 952876679}
-  - component: {fileID: 952876682}
   - component: {fileID: 952876678}
   - component: {fileID: 952876680}
   - component: {fileID: 952876681}
-  - component: {fileID: 952876683}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2766,42 +2764,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameTimerText: {fileID: 1158748578}
---- !u!114 &952876682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952876677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 18
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &952876683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952876677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b4de3840f1e7ab47ad3684c1407d2d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  perkTimerText: {fileID: 1185962558}
-  perkUI: {fileID: 1035040832}
 --- !u!1 &967879914
 GameObject:
   m_ObjectHideFlags: 0
@@ -3033,7 +2995,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: ba0746dc650873940a0627aa0463b2a9, type: 2}
     - {fileID: 11400000, guid: 0f3561cb16544534ab5646383f060e04, type: 2}
   perkObject: {fileID: 5013937644418621010, guid: f61034d180e6d8a45a61e4174d6f4150, type: 3}
-  perkTimer: {fileID: 952876683}
 --- !u!1 &1150630948
 GameObject:
   m_ObjectHideFlags: 0
@@ -4654,6 +4615,8 @@ MonoBehaviour:
   activeTempPerks: {fileID: 2062046805}
   perkUI: {fileID: 1035040832}
   milestoneText: {fileID: 844865450}
+  perkTimerText: {fileID: 1185962558}
+  gameTimerText: {fileID: 1158748578}
   endText: {fileID: 204828430}
 --- !u!1 &1597993467
 GameObject:

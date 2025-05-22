@@ -2,39 +2,57 @@ using TMPro;
 using Photon.Pun;
 using UnityEngine;
 
-public class PerkTimer : Timer
+public class PerkTimer : MonoBehaviour
 {
-    public TMP_Text perkTimerText;
-    public PerkUI perkUI;
+    private UIManager uiManager;
+    private float maxTime;
+    private float currentTime;
+    private bool isCounting = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        clientOnly = true;
+        uiManager = UIManager.UIManagerInstance;
 
-        if(GetComponent<PhotonView>().IsMine)
+        SetMaxTime(10f);
+        StartCountdown();
+    }
+
+    void Update()
+    {
+        if (isCounting)
         {
-            SetMaxTime(10f);
-            StartCountdown();
+            currentTime = currentTime -= Time.deltaTime;
+            OnCountdownDecrement();
+
+            if (currentTime <= 0)
+            {
+                 OnCountdownDone();
+            }
         }
     }
 
-    protected override void OnCountdownDecrement()
+    public void SetMaxTime(float time)
     {
-        currentTime = currentTime -= Time.deltaTime;
+        maxTime = time;
+        currentTime = time;
+    }
 
+    public void StartCountdown()
+    {
+        isCounting = true;
+    }
+
+    private void OnCountdownDecrement()
+    {
         string minutes = ((int)currentTime / 60).ToString("00");
         string seconds = ((int)currentTime % 60).ToString("00");
-        perkTimerText.text = "Time until next perk: " + minutes + ":" + seconds;
+        uiManager.perkTimerText.text = "Time until next perk: " + minutes + ":" + seconds;
     }
 
-    protected override void OnCountdownDone()
+    private void OnCountdownDone()
     {
-        if (GetComponent<PhotonView>().IsMine)
-        {
-            isCounting = false;
-            perkUI.RollRandomPerks();
-            currentTime = maxTime;
-        }
+        isCounting = false;
+        uiManager.perkUI.RollRandomPerks();
+        currentTime = maxTime;
     }
 }

@@ -34,7 +34,6 @@ public class Perk : MonoBehaviour
         PlayerManager.localPlayerInstance.GetComponent<PlayerPerk>().ActivatePerk(effect); /// activate the perk on the player so duration script stays with player
         transform.parent.gameObject.SetActive(false);
 
-        if(perkTimer.GetComponent<PhotonView>().IsMine) 
-            perkTimer.StartCountdown();
+        perkTimer.StartCountdown();
     }
 }

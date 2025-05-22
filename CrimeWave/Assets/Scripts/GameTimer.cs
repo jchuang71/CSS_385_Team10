@@ -1,42 +1,106 @@
 using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
+using ExitGames.Client.Photon;
 using TMPro;
 using UnityEngine;
 
-public class GameTimer : Timer
+public class GameTimer : MonoBehaviourPun, IOnEventCallback
 {
-    public TMP_Text gameTimerText;
+    public UIManager uiManager;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private float gameLength = 60f;
+    private float currentTime;
+    private bool isCounting;
+
+    private byte gameTimerEventCode = 10;
+    private byte gameTimeDoneCode = 11;
+
+    private void Start()
     {
-        clientOnly = false;
+        uiManager = UIManager.UIManagerInstance;
+        currentTime = gameLength;
 
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
-            SetMaxTime(30f);
             StartCountdown();
         }
     }
 
-    [PunRPC]
-    protected override void OnCountdownDecrement()
+    public void StartCountdown()
     {
-        currentTime -= Time.deltaTime;
+        isCounting = true;
+        StartCoroutine(Countdown());
+    }
+
+    private IEnumerator Countdown()
+    {
+        while(isCounting)
+        {
+            yield return new WaitForSeconds(1f);
+            currentTime -= 1f;
+            OnCountdownDecrement_Send();
+        }
+    }
+
+    private void OnCountdownDecrement_Send()
+    {
+        if (currentTime >= 0)
+        {
+            object[] package = new object[] { currentTime };
+            PhotonNetwork.RaiseEvent(
+                gameTimerEventCode,
+                package,
+                new RaiseEventOptions { Receivers = ReceiverGroup.All },
+                new SendOptions { Reliability = true }
+                );
+        }
+        else
+        {
+            object[] package = new object[] { currentTime };
+            PhotonNetwork.RaiseEvent(
+                gameTimeDoneCode,
+                package,
+                new RaiseEventOptions { Receivers = ReceiverGroup.All },
+                new SendOptions { Reliability = true }
+                );
+        }
+    }
+    private void OnCountdownDecrement_Receive(object[] data)
+    {
+        currentTime = (float)data[0];
 
         string minutes = ((int)currentTime / 60).ToString("00");
         string seconds = ((int)currentTime % 60).ToString("00");
-        gameTimerText.text = "Time until island explodes: " + minutes + ":" + seconds;
+        uiManager.gameTimerText.text = "Time until ioland explodes: " + minutes + ":" + seconds;
     }
 
-    [PunRPC]
-    protected override void OnCountdownDone()
+    private void OnGameDone_Receive(object[] data)
     {
-        if(PhotonNetwork.IsMasterClient)
-        {
-            isCounting = false;
-            UIManager.UIManagerInstance.endText.gameObject.SetActive(true);
-            currentTime = maxTime; // reset timer
+        uiManager.endText.gameObject.SetActive(true);
+    }
 
+    private void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        if(photonEvent.Code == gameTimerEventCode)
+        {
+            OnCountdownDecrement_Receive((object[])photonEvent.CustomData);
+        }
+        else if(photonEvent.Code == gameTimeDoneCode)
+        {
+            OnGameDone_Receive((object[])photonEvent.CustomData);
         }
     }
 }

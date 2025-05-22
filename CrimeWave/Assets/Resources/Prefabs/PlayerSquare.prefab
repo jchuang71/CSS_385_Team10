@@ -434,5 +434,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b4de3840f1e7ab47ad3684c1407d2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perkTimerText: {fileID: 0}
-  perkUI: {fileID: 0}

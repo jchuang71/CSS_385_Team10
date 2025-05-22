@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     public GameObject activeTempPerks;
     public PerkUI perkUI;
     public TMP_Text milestoneText;
+    public TMP_Text perkTimerText;
+    public TMP_Text gameTimerText;
     public TMP_Text endText;
 
     void Awake()
