@@ -21,6 +21,7 @@ MonoBehaviour:
   percentangeSpeedDebuff: 50
   bulletSpeed: 10
   bulletSplashDamageRange: 5
+  isExplosionAnimationOnHit: 1
   bulletsPerShot: 1
   bulletSpread: 0
   reloadTime: 4

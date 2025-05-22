@@ -205,14 +205,14 @@ public class PlayerGun : MonoBehaviourPun
     {
         //creates a random spread for the bullet
         float spread = Random.Range(-currentGun.bulletSpread, currentGun.bulletSpread);
-        float stretchFactor = Mathf.Clamp(currentGun.damage / 7f, 1f, 5f); // Adjust denominator for scaling range
+        float stretchFactor = Mathf.Clamp(currentGun.damage / 7f, 1f, 5f); // DISABLED DUE TO COLLISION ISSUES
 
         GameObject bullet = PhotonNetwork.Instantiate(
             bulletPrefabPath, 
             transform.position, 
             Quaternion.Euler(0, 0, rb.rotation),
             0,
-            new object[] { spread, stretchFactor, currentGun.bulletSpritePath, currentGun.isScalableBulletSprite } // Send spread angle as instantiation data
+            new object[] { spread, stretchFactor, currentGun.bulletSpritePath, currentGun.isScalableBulletSprite, currentGun.isExplosionAnimationOnHit }
         );
 
         bullet.GetComponent<BulletLogic>().SetBulletData(currentGun); // Set the bullet data from the gun

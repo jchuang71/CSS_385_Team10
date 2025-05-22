@@ -191,7 +191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 500
   lootDropAmount: 25000
-  respawnDelay: 5
+  respawnDelay: 20
   prefabName: Car
 --- !u!1 &1656507418563220797
 GameObject:

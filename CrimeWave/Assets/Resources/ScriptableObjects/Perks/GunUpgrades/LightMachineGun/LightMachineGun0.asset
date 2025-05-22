@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 552821344e6fedc43a4dc38b78b94b4a, type: 3}
+  m_Name: LightMachineGun0
+  m_EditorClassIdentifier: 
+  perkName: Unlock LMG
+  perkDescription: Unlocks LMG
+  perkDuration: 0
+  isPermanent: 1
+  gun: {fileID: 11400000, guid: 59eb20a4b9685b94fb3408def4ea584f, type: 2}
+  rarity: 1
+  rarityLevel: 0
+  rarityColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0}

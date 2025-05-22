@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b3c335f536d1a04e9edb18536a449f1, type: 3}
-  m_Name: LightMachineGun
+  m_Name: LightMachineGun0
   m_EditorClassIdentifier: 
   gunName: LMG
   gunDescription: Slowest movement and reload time in the game but incredibly high
@@ -22,10 +22,11 @@ MonoBehaviour:
   percentangeSpeedDebuff: 50
   bulletSpeed: 20
   bulletSplashDamageRange: 0.5
+  isExplosionAnimationOnHit: 0
   bulletsPerShot: 1
   bulletSpread: 0
   reloadTime: 7
-  magazineSize: 100
+  magazineSize: 60
   gunSprite: {fileID: 833705408150040578, guid: 9867414388ca28b41996b5d9de992557, type: 3}
   bulletSpritePath: Sprites/bullet
   isScalableBulletSprite: 0

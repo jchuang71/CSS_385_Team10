@@ -11,6 +11,7 @@ public class BulletLogic : MonoBehaviourPun
     private int shooterViewID;
     private float distanceTravelled; // Distance traveled by the bullet
     private bool hasHit = false; // Flag to check if the bullet has hit something
+    private bool isOnHitAnimation = false; // Flag to check if the bullet has hit something
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,8 +23,12 @@ public class BulletLogic : MonoBehaviourPun
             float stretchFactor = (float)photonView.InstantiationData[1];
             string spritePath = (string)photonView.InstantiationData[2];
             bool isScalable = (bool)photonView.InstantiationData[3];
+            bool explosionOnHit = (bool)photonView.InstantiationData[4];
 
             Sprite sprite = Resources.Load<Sprite>(spritePath);
+
+            isOnHitAnimation = explosionOnHit;
+
             if (sr != null && sprite != null)
             {
                 sr.sprite = sprite;
@@ -108,6 +113,12 @@ public class BulletLogic : MonoBehaviourPun
                 hit.GetComponent<DestructibleObject>().RemoveHealth(damage);
             }
         }
+
+        if (isOnHitAnimation)
+        {
+            PhotonNetwork.Instantiate("Prefabs/Explosion", transform.position, Quaternion.identity);
+        }
+
         PhotonNetwork.Destroy(gameObject); // Destroy bullet
     }
 
