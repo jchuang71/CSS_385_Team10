@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             {
                 Debug.LogWarning("LocalPlayerInstance is being reassigned. This could be an error.");
             }
+
             localPlayerInstance = gameObject;
         }
 
@@ -24,6 +25,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
+            GameManager.playerList.Add(localPlayerInstance); // add to player list at instantiation
+
             float r = Random.Range(0f, 1f);
             float g = Random.Range(0f, 1f);
             float b = Random.Range(0f, 1f);
