@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
-            GameManager.playerList.Add(localPlayerInstance); // add to player list at instantiation
+            photonView.RPC("AddToPlayerListRPC", RpcTarget.All);
 
             float r = Random.Range(0f, 1f);
             float g = Random.Range(0f, 1f);
@@ -39,5 +39,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public void SetPlayerColor(float r, float g, float b, float a)
     {
         GetComponent<SpriteRenderer>().color = new Color(r, g, b, a);
+    }
+
+    [PunRPC]
+    public void AddToPlayerListRPC()
+    {
+        GameManager.playerList.Add(localPlayerInstance);
     }
 }

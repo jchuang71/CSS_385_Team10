@@ -1,3 +1,4 @@
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,7 +6,8 @@ using UnityEngine.UI;
 public class Perk : MonoBehaviour
 {
     public PerkEffect effect;
-
+    public PerkTimer perkTimer;
+    
     private TextMeshProUGUI perkNameText;
     private TextMeshProUGUI perkDescriptionText;
     private TextMeshProUGUI perkDurationText;
@@ -31,5 +33,8 @@ public class Perk : MonoBehaviour
     {
         PlayerManager.localPlayerInstance.GetComponent<PlayerPerk>().ActivatePerk(effect); /// activate the perk on the player so duration script stays with player
         transform.parent.gameObject.SetActive(false);
+
+        if(perkTimer.GetComponent<PhotonView>().IsMine) 
+            perkTimer.StartCountdown();
     }
 }

@@ -8,6 +8,7 @@ public class PerkUI : MonoBehaviour
     public List<PerkEffectList> perkCategories = new List<PerkEffectList>(); // category of effects
 
     [SerializeField] private GameObject perkObject;
+    [SerializeField] private PerkTimer perkTimer;
     private List<GameObject> currentPerkRolls = new List<GameObject>();
     private GameObject selectPerkPanel;
 
@@ -50,6 +51,7 @@ public class PerkUI : MonoBehaviour
             PerkEffectList randomCategory = perkCategories[Random.Range(0, perkCategories.Count)];
             PerkEffect randomEffectInCategory = randomCategory.list[Random.Range(0, randomCategory.list.Count)];
             newPerk.GetComponent<Perk>().effect = randomEffectInCategory;
+            newPerk.GetComponent<Perk>().perkTimer = perkTimer;
 
             currentPerkRolls.Add(newPerk);
         }

@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: -744119379784335073}
   - component: {fileID: 224862147224998294}
   - component: {fileID: 3416791323711901504}
+  - component: {fileID: -1126702322225241165}
   m_Layer: 0
   m_Name: PlayerSquare
   m_TagString: Player
@@ -421,3 +422,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   perkTextPrefab: {fileID: 2044320842814074778, guid: 922f6f10927d2454791a56881a455999, type: 3}
+--- !u!114 &-1126702322225241165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2383410608151954529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b4de3840f1e7ab47ad3684c1407d2d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  perkTimerText: {fileID: 0}
+  perkUI: {fileID: 0}
