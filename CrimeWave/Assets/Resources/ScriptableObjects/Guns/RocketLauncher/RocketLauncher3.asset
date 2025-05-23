@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b3c335f536d1a04e9edb18536a449f1, type: 3}
-  m_Name: RocketLauncher
+  m_Name: RocketLauncher3
   m_EditorClassIdentifier: 
   gunName: Rocket Launcher
   gunDescription: Best option against destructable objects
   gunSelectorIndex: 5
   fireRate: 1
-  damage: 70
+  damage: 25
   range: 10
   percentangeSpeedDebuff: 50
   bulletSpeed: 10
   bulletSplashDamageRange: 5
   isExplosionAnimationOnHit: 1
-  bulletsPerShot: 1
-  bulletSpread: 0
-  reloadTime: 4
+  bulletsPerShot: 6
+  bulletSpread: 40
+  reloadTime: 2
   magazineSize: 1
   gunSprite: {fileID: 2776169872731505672, guid: 08fe8fada44bab4488f13109536c6345, type: 3}
   bulletSpritePath: Sprites/Rocket

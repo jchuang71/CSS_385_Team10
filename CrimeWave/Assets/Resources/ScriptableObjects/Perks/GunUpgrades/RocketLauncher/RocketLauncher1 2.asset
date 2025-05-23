@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 552821344e6fedc43a4dc38b78b94b4a, type: 3}
-  m_Name: LightMachineGun3
+  m_Name: RocketLauncher1 2
   m_EditorClassIdentifier: 
-  perkName: Automatic Belt Feeder
-  perkDescription: No Reload Time
+  perkName: Katyusha
+  perkDescription: Mass Destruction!
   perkDuration: 0
   isPermanent: 1
-  gun: {fileID: 11400000, guid: dd39dbc1ff3db1d48b2dec582f3243b2, type: 2}
+  gun: {fileID: 11400000, guid: 5fce826821c2f3444b647c0c0deafa6d, type: 2}
   rarity: 0.1
   rarityLevel: 3
-  rarityColor: {r: 0.9450981, g: 0.68235296, b: 0.007843138, a: 0}
+  rarityColor: {r: 0.9294118, g: 0.6745098, b: 0.011764707, a: 0}

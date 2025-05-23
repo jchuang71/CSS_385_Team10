@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552821344e6fedc43a4dc38b78b94b4a, type: 3}
   m_Name: LightMachineGun2
   m_EditorClassIdentifier: 
-  perkName: Heavy Rounds
-  perkDescription: Damage Upgrade
+  perkName: Bigger Gun
+  perkDescription: Damage & Magazine Upgrade
   perkDuration: 0
   isPermanent: 1
-  gun: {fileID: 11400000, guid: 42178a4804a16be46bb807e1f3738ed0, type: 2}
+  gun: {fileID: 11400000, guid: aa8b6028260a1a5469567933b949966a, type: 2}
   rarity: 0.25
   rarityLevel: 2
-  rarityColor: {r: 0, g: 0.5294118, b: 0.8078432, a: 0}
+  rarityColor: {r: 0.16862746, g: 0.48627454, b: 0.82745105, a: 0}

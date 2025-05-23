@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b3c335f536d1a04e9edb18536a449f1, type: 3}
-  m_Name: SubMachineGun
+  m_Name: SubMachineGun1
   m_EditorClassIdentifier: 
   gunName: SMG
   gunDescription: Very high rate of fire and movement, low per-bullet damage, accuracy
