@@ -33,10 +33,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Attempting to create player");
 
-        int playerIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % 2;
-        Debug.Log("Player index: " + playerIndex + " from ActorNumber: " + PhotonNetwork.LocalPlayer.ActorNumber);
-
-        Vector3 position = new Vector3(-2 + playerIndex * 4, 0, 0);
+        Vector3 position = new Vector3(-2 + PhotonNetwork.LocalPlayer.ActorNumber * 4, 0, 0);
 
         string prefabName = "Prefabs/" + playerPrefab.name; //Correct path for Photon
 

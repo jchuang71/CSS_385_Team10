@@ -7,9 +7,8 @@ using System.Collections.Generic;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    //public GameObject playersPanel;
-    public TMP_Text player1Text;
-    public TMP_Text player2Text;
+    public GameObject playersPanel;
+    public GameObject playerTextPrefab;
 
     // lobby related game objects
     public TMP_InputField roomInputField;
@@ -76,7 +75,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         roomName.text = "Room Name: " + PhotonNetwork.CurrentRoom.Name +
                             " (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" +
                             PhotonNetwork.CurrentRoom.MaxPlayers + ")";
-
         UpdatePlayerList();
     }
 
@@ -127,7 +125,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void OnClickCreate()
     {
-        PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() { MaxPlayers = 2, BroadcastPropsChangeToAll = true });
+        PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() { MaxPlayers = 4, BroadcastPropsChangeToAll = true });
     }
 
     public void OnClickLeaveRoom()
@@ -174,9 +172,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void UpdatePlayerList()
     {
-        // Reset player texts
-        player1Text.text = "";
-        player2Text.text = "";
+        foreach (Transform child in playersPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
 
         // Add text for each player in room
         if (PhotonNetwork.CurrentRoom != null)
@@ -194,15 +193,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                     playerText += " (You)";
                 }
 
-                // Assign to the appropriate text field
-                if (i == 0)
-                {
-                    player1Text.text = playerText;
-                }
-                else if (i == 1)
-                {
-                    player2Text.text = playerText;
-                }
+                GameObject newPlayer = Instantiate(playerTextPrefab, transform.position, Quaternion.identity);
+                newPlayer.transform.SetParent(playersPanel.transform, false);
+                newPlayer.GetComponent<TMP_Text>().text = playerText;
             }
         }
     }
