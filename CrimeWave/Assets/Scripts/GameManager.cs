@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public static List<GameObject> playerList = new List<GameObject>();
     public GameObject playerPrefab; // Reference in inspector
     private GameObject myPlayer;
     private static int currentPlayers;

@@ -31,7 +31,7 @@ public class MoneyLoot : MonoBehaviourPun, IPunInstantiateMagicCallback
             Debug.Log("MasterClient found player with ID: " + playerViewID);
 
             // Instruct player to add money via RPC (this ensures photonView.IsMine is true)
-            playerPhotonView.RPC("AddMoney", playerPhotonView.Owner, moneyAmount);
+            playerPhotonView.RPC("AddMoney", RpcTarget.All, moneyAmount);
         }
         else
         {

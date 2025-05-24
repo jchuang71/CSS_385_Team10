@@ -40,15 +40,16 @@ public class CurrencyHandler : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            photonView.RPC(nameof(GenerateLootRPC), RpcTarget.MasterClient, amount); // Call the master client to spawn loot prefab
-            ChangeMoneyBy(-amount); // Local player loses money immediately
+            photonView.RPC(nameof(GenerateLootRPC), RpcTarget.All, amount);
         }
     }
 
     [PunRPC]
     void GenerateLootRPC(float amount, PhotonMessageInfo info)
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        ChangeMoneyBy(-amount); // all players know object lost money
+
+        if (!PhotonNetwork.IsMasterClient) return; // only masterclient can spawn loot
 
         // Pass loot amount via instantiationData
         object[] data = new object[] { amount };
@@ -61,12 +62,9 @@ public class CurrencyHandler : MonoBehaviourPun
     // Call this when picking up loot or gaining money
     public void ChangeMoneyBy(float amount)
     {
-        if (photonView.IsMine)
-        {
-            money += amount;
-            Debug.Log("Money changed by: " + amount + " New total: " + money);
-            UpdateMoneyUI();
-        }
+        money += amount;
+        Debug.Log("Money changed by: " + amount + " New total: " + money);
+        UpdateMoneyUI();
     }
 
     private void UpdateMoneyUI()
