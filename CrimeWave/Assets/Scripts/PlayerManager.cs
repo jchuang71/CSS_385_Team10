@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             localPlayerInstance = gameObject;
         }
 
+        
         DontDestroyOnLoad(gameObject);
     }
 
@@ -44,6 +45,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void AddToPlayerListRPC()
     {
-        GameManager.playerList.Add(localPlayerInstance);
+        GameManager.playerList.Add(gameObject); // do not add local instance
     }
 }
