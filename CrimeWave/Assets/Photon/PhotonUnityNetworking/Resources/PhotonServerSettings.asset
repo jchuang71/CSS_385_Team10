@@ -68,6 +68,7 @@ MonoBehaviour:
   - AddToPlayerListRPC
   - OnCountdownDecrement
   - OnCountdownDone
+  - GetMoney
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

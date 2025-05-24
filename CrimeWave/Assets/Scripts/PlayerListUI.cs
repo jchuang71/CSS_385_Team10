@@ -49,7 +49,7 @@ public class PlayerListUI : MonoBehaviour
         {
             for (int i = 0; i < playersListObjects.Count; i++)
             {
-                GameObject player = GameManager.playerList[i]; // get actual player object in scene
+                GameObject player = (GameObject)PhotonNetwork.PlayerList[i].TagObject;
                 GameObject playerList = playersListObjects[i]; // player listing
 
                 // set sprite and color
@@ -62,7 +62,7 @@ public class PlayerListUI : MonoBehaviour
                 // set money have
                 playerList.transform.GetChild(2).GetComponent<TMP_Text>().text = "$" + player.GetComponent<CurrencyHandler>().money.ToString();
 
-                Debug.Log(player.GetComponent<CurrencyHandler>().money);
+                Debug.Log(player.GetComponent<PhotonView>().Owner.NickName + ": " + player.GetComponent<CurrencyHandler>().money);
             }
 
             yield return new WaitForSeconds(updateInterval);

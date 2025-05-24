@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviourPunCallbacks
+public class PlayerManager : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
 {
     public static GameObject localPlayerInstance;
 
@@ -17,17 +17,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
             localPlayerInstance = gameObject;
         }
-
         
         DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
+        //photonView.ObservedComponents.Add(GetComponent<CurrencyHandler>());
+
         if (photonView.IsMine)
         {
-            photonView.RPC("AddToPlayerListRPC", RpcTarget.All);
-
             float r = Random.Range(0f, 1f);
             float g = Random.Range(0f, 1f);
             float b = Random.Range(0f, 1f);
@@ -42,9 +41,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         GetComponent<SpriteRenderer>().color = new Color(r, g, b, a);
     }
 
-    [PunRPC]
-    public void AddToPlayerListRPC()
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
-        GameManager.playerList.Add(gameObject); // do not add local instance
+        info.Sender.TagObject = this.gameObject; // set a reference to a player's game object through tagobject
     }
 }
