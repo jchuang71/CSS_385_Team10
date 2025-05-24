@@ -17,6 +17,8 @@ public class PlayerListUI : MonoBehaviour
 
     void Start()
     {
+        playerListContainer.SetActive(false);
+
         for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
             GameObject newPlayer = Instantiate(playerListPrefab, transform.position, Quaternion.identity, playerListContainer.transform);
@@ -59,6 +61,8 @@ public class PlayerListUI : MonoBehaviour
 
                 // set money have
                 playerList.transform.GetChild(2).GetComponent<TMP_Text>().text = "$" + player.GetComponent<CurrencyHandler>().money.ToString();
+
+                Debug.Log(player.GetComponent<CurrencyHandler>().money);
             }
 
             yield return new WaitForSeconds(updateInterval);

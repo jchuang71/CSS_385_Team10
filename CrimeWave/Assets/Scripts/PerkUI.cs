@@ -21,19 +21,22 @@ public class PerkUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) 
+        if(selectPerkPanel.activeSelf)
         {
-            currentPerkRolls[0].GetComponent<Perk>().ActivatePerk();
-        }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                currentPerkRolls[0].GetComponent<Perk>().ActivatePerk();
+            }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            currentPerkRolls[1].GetComponent<Perk>().ActivatePerk();
-        }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                currentPerkRolls[1].GetComponent<Perk>().ActivatePerk();
+            }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3)) 
-        {
-            currentPerkRolls[2].GetComponent<Perk>().ActivatePerk();
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                currentPerkRolls[2].GetComponent<Perk>().ActivatePerk();
+            }
         }
     }
 
