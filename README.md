@@ -8,4 +8,4 @@
 
 ## Repository: https://github.com/jchuang71/CSS_385_Team10
 
-## Website: https://crimewave-game.vercel.app/ 
+## Website: https://crimewave.vercel.app/
