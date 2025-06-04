@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TempMediumPlyDmgBuff
   m_EditorClassIdentifier: 
   perkName: Player Damage Buff
-  perkDescription: Temporary 1.25x damage multiplier against players
+  perkDescription: Temporary 1.3x damage multiplier against players
   perkDuration: 20
   isPermanent: 0
   perkColor: {r: 0.8235294, g: 0.44313726, b: 0.9137255, a: 1}
-  amount: 1.25
+  amount: 1.3

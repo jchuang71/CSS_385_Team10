@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TempSmallObjDmgBuff
   m_EditorClassIdentifier: 
   perkName: Object Damage Buff
-  perkDescription: Temporary 1.1x damage multiplier against objects
+  perkDescription: Temporary 1.25x damage multiplier against objects
   perkDuration: 20
   isPermanent: 0
   perkColor: {r: 0.5176471, g: 0.84705883, b: 0.8784314, a: 1}
-  amount: 1.1
+  amount: 1.25
